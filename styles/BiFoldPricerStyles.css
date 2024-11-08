@@ -13,7 +13,7 @@ body,html {
                                                                 BOX LAYOUT CSS STYLES & BORDERS
 */
 div.main-pane {
-    width: 1200px;
+    min-width: 1200px;
     display: grid;
     grid-gap: 10px;
     grid-template-columns: [col1-start] 900px [col2-start] 290px [col2-end];
