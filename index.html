@@ -8,7 +8,9 @@
         
     </head>
     <body>
-        <div class="tab-pane">            
+        <button type="button" id="testbutton">run console log</button>
+        <!--<button type="button" id="testbutton2">run sample</button>-->
+        <div class="tab-pane" id="main-tab-pane">            
             <ul aria-labelledby="tabs-title">
                 <li><a id="tab-1" href="#service"> Service </a></li>
                 <li><a id="tab-2" href="#size-style"> Size & Style </a></li>
@@ -17,9 +19,10 @@
                 <li><a id="tab-5" href="#hardware-options"> Hardware </a></li>
                 <li><a id="tab-6" href="#threshold"> Threshold </a></li>
                 <li><a id="tab-7" href="#glazing"> Glazing </a></li>
+                <li><a id="tab-8" href="#summary"> Summary </a></li>
             </ul>
         
-            <div class="main-pane">
+            <div class="main-pane" id="main-view-pane">
                 <div class="image-outview pane-style">
                     <canvas class = "canvas" id="canvas-outview"></canvas>
                     <p>Rodney the rocket bifolds can be made to any size in 1,2,3,4,5,6 and 7 leaf BiFolding doors</p>
@@ -69,7 +72,8 @@
                         </form>
                         <br>
 
-                        <label>Leaves</label><div class="leaf-buttons" id="leafbuttonsid">
+                        <label>Leaves</label>
+                        <div class="leaf-buttons" id="leafbuttonsid">
                             <button type="button" class = "fadedButton" id="BF2">2</button>
                             <button type="button" class = "fadedButton" id="BF3">3</button>
                             <button type="button" class = "fadedButton" id="BF4">4</button>
@@ -78,7 +82,8 @@
                         </div>
                         <br>
                         
-                        <label>Style Config:</label><div id="available-style-buttons"></div>
+                        <label>Style Config:</label>
+                        <div id="available-style-buttonsid"></div>
 
 
 
@@ -136,11 +141,19 @@
 
                     </div>
                     <div id="colour" aria-labelledby="tab-4"><p>Colour</p>
-                        <div class="reg-col-options">
-                            <div><button type="button" id="button-grey">Grey</button><label for="inputField1" class="reg-col-labels">Grey</label></div>
-                            <div><button type="button" id="button-white">White</button><label for="inputField2" class="reg-col-labels">White</label></div>
-                            <div><button type="button" id="button-greyonwhite">Grey On White</button><label for="inputField3" class="reg-col-labels">Grey On White</label></div>
-                            <div><button type="button" id="button-black">Black</button><label for="inputField4" class="reg-col-labels">Black</label></div>
+                        <label>External Colour</label>
+                        <div class="reg-col-options" id="reg-col-options-external">
+                            <button type="button" id="button-grey-external">Grey</button>
+                            <button type="button" id="button-white-external">White</button>
+                            <button type="button" id="button-black-external">Black</button>
+                            <button type="button" id="button-RAL-external">RAL Colour</button>
+                        </div><br><br><br><br>
+                        <label>Internal Colour</label>
+                        <div class="reg-col-options" id="reg-col-options-internal">
+                            <button type="button" id="button-grey-internal">Grey</button>
+                            <button type="button" id="button-white-internal">White</button>
+                            <button type="button" id="button-black-internal">Black</button>
+                            <button type="button" id="button-RAL-internal">RAL Colour</button>
                         </div>
                         <div>
                             <button type="button" id="colourback" class="back-button">BACK</button>
@@ -149,27 +162,31 @@
                     </div>
                     <div id="hardware-options" aria-labelledby="tab-5"><p>Hardware Options</p>
                         <label>Lever Handle</label><br>
-                        <input type="radio" id="lhblack" name="leverhandle" value="black">
-                        <label for="lhblack">Black</label>
-                        <input type="radio" id="lhwhite" name="leverhandle" value="white">
-                        <label for="lhwhite">White</label>
-                        <input type="radio" id="lhchrome" name="leverhandle" value="chrome">
-                        <label for="lhchrome">Chrome</label><br>
-                        <input type="radio" id="lhcolmatch" name="leverhandle" value="colmatch">
-                        <label for="lhcolmatch">Colour Matched</label>
+                        <div class="leverhandle-buttons">
+                            <input type="radio" id="lhblack" name="leverhandle" value="black">
+                            <label for="lhblack">Black</label>
+                            <input type="radio" id="lhwhite" name="leverhandle" value="white">
+                            <label for="lhwhite">White</label>
+                            <input type="radio" id="lhchrome" name="leverhandle" value="chrome">
+                            <label for="lhchrome">Chrome</label><br>
+                            <input type="radio" id="lhcolmatch" name="leverhandle" value="colmatch">
+                            <label for="lhcolmatch">Colour Matched</label>
+                        </div>
                         <br><br>
                         <label>D-Handles</label><br>
-                        <input type="radio" id="dhblack" name="dhandle" value="black">
-                        <label for="dhblack">Black</label><br>
-                        <input type="radio" id="dhwhite" name="dhandle" value="white">
-                        <label for="dhwhite">White</label><br>
-                        <input type="radio" id="dhchrome" name="dhandle" value="chrome">
-                        <label for="dhchrome">Chrome</label><br>
-                        <input type="radio" id="dhcolmatch" name="dhandle" value="colmatch">
-                        <label for="dhcolmatch">Colour Matched</label><br>
+                        <div class="dhandle-buttons">
+                            <input type="radio" id="dhblack" name="dhandle" value="black">
+                            <label for="dhblack">Black</label><br>
+                            <input type="radio" id="dhwhite" name="dhandle" value="white">
+                            <label for="dhwhite">White</label><br>
+                            <input type="radio" id="dhchrome" name="dhandle" value="chrome">
+                            <label for="dhchrome">Chrome</label><br>
+                            <input type="radio" id="dhcolmatch" name="dhandle" value="colmatch">
+                            <label for="dhcolmatch">Colour Matched</label><br>
+                        </div>
                         <br><br>
+                        <label>S-Bolt</label>
                         <div class="sbolt-buttons">
-                            <label>S-Bolt</label><br>
                             <button type="button" id="sbblack">Black</button>
                             <button type="button" id="sbwhite">White</button>
                             <button type="button" id="sbchrome">Chrome</button>
@@ -199,7 +216,7 @@
                         <label>Cill Options:</label>
                             <select id="CILLSELECT">
                                 <option value="None">None</option>
-                                <option value="Flush">Flush Drainage</option>
+                                <option value="Flush Drainage">Flush Drainage</option>
                                 <option value="85mm Stub">85mm Stub</option>
                                 <option value="135mm">135mm</option>
                                 <option value="150mm" selected>150mm</option>
@@ -209,8 +226,7 @@
                             <button type="button" id="thresholdback" class="back-button">BACK</button>
                             <button type="button" id="thresholdcontinue" class="continue-button">GET QUOTE</button>
                         </div>
-                    </div>
-                    
+                    </div>                    
                     <div id="glazing" aria-labelledby="tab-7"><p>Glazing Options</p>
                         <label>Glazing Options:</label>
                         <select id="GLAZINGSELECT">
@@ -226,6 +242,8 @@
                             <button type="button" id="glazingback" class="back-button">BACK</button>
                             <button type="button" id="glazingcontinue" class="continue-button">GET QUOTE</button>
                         </div>
+                    </div>
+                    <div id="summary" aria-labelledby="tab-8"><p>Summary</p>
                     </div>
                     
                 </div>       

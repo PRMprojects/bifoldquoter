@@ -18,7 +18,7 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
     }
 });
 tabPanels[0].setAttribute("hidden", "");
-tabPanels[4].removeAttribute("hidden", ""); //          ----TAB NUMBER HERE
+tabPanels[1].removeAttribute("hidden", ""); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
     const clickedTab = e.target.closest("a");
@@ -26,17 +26,78 @@ tabsContainer.addEventListener("click", (e) => {
     e.preventDefault();
 
     switchTab(clickedTab);
+    console.log(clickedTab);
 })
+
+function getOpenTab () {
+    const openTab = tabsContainer.querySelector("a[aria-selected='true']");
+    return openTab;
+}
+
+let mainViewPaneEl = [];
+function storeMainViewPane() {
+    const mainViewPane = document.getElementById("main-view-pane");
+    mainViewPaneEl = Array.from(mainViewPane.children).map(child => child.cloneNode(true));
+}
+storeMainViewPane();
+
+function restoreMainViewPane() {
+    const mainViewPane = document.getElementById("main-view-pane");
+    mainViewPaneEl.forEach(el => mainViewPane.appendChild(el));
+    mainViewPaneEl = [];
+}
 
 function switchTab(tabX) {
     const activePanelId = tabX.getAttribute('href');
     const activePanel = tabsContainer.querySelector(activePanelId);
+    
+    // First, handle the main view pane movement
+    const mainViewPane = document.getElementById("main-view-pane");
+    const mainTabPane = document.getElementById("main-tab-pane");
+    console.log(mainTabPane);
+    console.log(mainViewPane);
+    // Check if mainViewPane exists before trying to move it
+    if (mainViewPane) {
+        console.log("main view pane");
+        if (activePanelId === "#summary") {
+            // Moving to summary tab
+            console.log("yesmate");
+            const parentOfMainViewPane = mainViewPane.parentNode;
+            if (parentOfMainViewPane) {
+                parentOfMainViewPane.removeChild(mainViewPane);
+                mainTabPane.appendChild(mainViewPane);
+            }
+            openSummary();
+        } else {
+            // Moving from summary to another tab
+            const summaryPage = document.getElementById("summary-page");
+            console.log("nomate");
+            if (summaryPage) {
+                summaryPage.remove();
+            }
+            // Ensure mainViewPane is in the correct location
+            
+        }
+    } else {
+        if (!mainTabPane.contains(mainViewPane)) {
+            const newMainViewPane = document.createElement("div");
+            newMainViewPane.id = "main-view-pane";
+            mainTabPane.appendChild(newMainViewPane);
+            restoreMainViewPane();
+        }
+        console.log("no main view pane");
+    }
 
+    // Then handle panel visibility
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
-    })
-    activePanel.removeAttribute("hidden");
+    });
+    
+    if (activePanel) {
+        activePanel.removeAttribute("hidden");
+    }
 }
+
 //|   |   |   |   |   |   |   |   |   |   |   |   BACK & CONTINUE BUTTONS
 sizestyleback.addEventListener("click", (e) => {
     console.log(e.target);
@@ -135,19 +196,32 @@ thresholdcontinue.addEventListener("click", (e) => {
     const nextPanel = tabsContainer.querySelector("#glazing")
     nextPanel.removeAttribute("hidden");
 })
-//glazingcontinue.addEventListener("click", (e) => {
-//    console.log(e.target);
-//    tabPanels.forEach((panel) => {
-//        panel.setAttribute("hidden", true);
-//    })
-//    const nextPanel = tabsContainer.querySelector("#summary")
-//    nextPanel.removeAttribute("hidden");
-//})
+//|   |   |   |   |   |   |   |   |   |   |   |   GET QUOTE FUNCTION
+glazingcontinue.addEventListener("click", (e) => {
+    console.log(e.target);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    })
+    openSummary();
+})
+function openSummary () {
+    const newDivSummary = document.createElement("div");
+    newDivSummary.id = "summary-page";
+    newDivSummary.textContent = "Summary";
+    
+    const divToRemove = document.getElementById("main-view-pane");
+    divToRemove.remove();
+    const bodyElement = document.getElementById("main-tab-pane");
+    bodyElement.appendChild(newDivSummary);
+    quoteSummaryElements();
+
+}
+
 
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
-setwidth = 5000;
-setheight = 2100;
+var setwidth = 5000;
+var setheight = 2100;
 
 returnedwidth.textContent = setwidth;       //test expression
 returnedheight.textContent = setheight;     //test expression
@@ -217,6 +291,7 @@ function showLeafButtons () {
 
 
 showLeafButtons();
+var bfconfig = 505;
 var bfstyle = 5; //initalised for test with 5
 function logBfLeaves (x) {
     var bfl = Number(x);
@@ -356,6 +431,16 @@ function addStyleButtons () {
         }
     
 };
+var availableStyleButtons = document.getElementById("available-style-buttonsid");
+if (availableStyleButtons) {
+    availableStyleButtons = document.getElementById("available-style-buttonsid");
+    availableStyleButtons.addEventListener("click", (event) => {
+        if (event && event.target && event.target.id) {
+            bfconfig = event.target.id;
+            console.log("bfconfig: ", bfconfig);
+        }
+    });
+}
 //|   |   |   |   |   |   |   |   |   |   |   |   FRAME OPTIONS
 var fOptTV = document.getElementById('TVSELECT');
 var fOpt42 = document.getElementById('FE42SELECT');
@@ -379,13 +464,38 @@ var fOptCill = document.getElementById('CILLSELECT');
 //    document.getElementById('fOptTest').textContent = selectedOption;
 //})
 //|   |   |   |   |   |   |   |   |   |   |   |   COLOUR OPTIONS
+const regcoloptionsexternal = document.getElementById('reg-col-options-external');
+const regcoloptionsinternal = document.getElementById('reg-col-options-internal');
+var colexternal = "Grey";
+var colinternal = "Grey";
+
+regcoloptionsexternal.addEventListener("click", (event) => {
+    colexternal = event.target.id;
+    console.log("selectedColour: ", colexternal);
+    colourSelected();
+})
+regcoloptionsinternal.addEventListener("click", (event) => {
+    colinternal = event.target.id;
+    console.log("selectedColour: ", colinternal);
+    colourSelected();
+})
+function colourSelected() {
+    if (colexternal) {
+        colexternal = colexternal.replace('button-', '').replace('-external', '');
+    }
+    if (colinternal) {
+        colinternal = colinternal.replace('button-', '').replace('-internal', '');
+    }
+}
+
 //|   |   |   |   |   |   |   |   |   |   |   |   HARDWARE OPTIONS
-// ... existing code ...
+
 
 // Get all S-bolt buttons
 const sboltButtons = document.querySelectorAll('#sbblack, #sbwhite, #sbchrome, #sbcolmatch');
 
 // Add click event listener to each button
+//var sboltSelected = document.getElementById('sbolt-buttons');
 sboltButtons.forEach(button => {
     button.addEventListener('click', function() {
         sboltButtons.forEach(btn => btn.classList.remove('s-bolt-selected'));
@@ -397,7 +507,7 @@ sboltButtons.forEach(button => {
 });
 
 //|   |   |   |   |   |   |   |   |   |   |   |   THRESHOLD OPTIONS
-var THval;
+var THval = "Standard Frame";
 THRESHOLDSELECT.addEventListener("change", (event) => {
     THval = THRESHOLDSELECT.value;
     const cillOptions = {
@@ -513,10 +623,10 @@ TVSELECT.addEventListener("change", (event) => {
     getPricing();
 })
 
-var FE42val;
+var FE42val = "None";
 FE42SELECT.addEventListener("change", (event) => {
     FE42val = FE42SELECT.value;
-    document.getElementById("fOptTest").textContent = FE42val;
+    console.log("FE42val: ", FE42val);
     FE42coster();
     getPricing();
 })
@@ -547,10 +657,10 @@ function FE42coster() {
 
 }//potentially rewrite here to be more efficient
 
-var FE20val;
+var FE20val = "None";
 FE20SELECT.addEventListener("change", (event) => {
     FE20val = FE20SELECT.value;
-    document.getElementById("fOptTest").textContent = FE20val;
+    console.log("FE20val: ", FE20val);
     FE20coster();
     getPricing();
 })
@@ -580,9 +690,9 @@ function FE20coster() {
 }
 
 var CILLprice = 0;
+var CILLval = "150mm";
 CILLSELECT.addEventListener("change", (event) => {
     CILLval = CILLSELECT.value;
-    document.getElementById("fOptTest").textContent = CILLval;
     CILLcoster();
     getPricing();
 })
@@ -727,4 +837,155 @@ function draw() {
 }
 //window.addEventListener("load");
 
+
+//|   |   |   |   |   |   |   |   |   |   |   |   VARIABLE STORAGE AND ENCODE/DECODE
+testbutton.addEventListener("click", (event) => {
+    runSample();
+})
+function runSample () {
+    let quoteSummaryCode = [];
+    console.log("_____________value log_______________");
+    console.log("setwidth: ", setwidth);      
+    quoteSummaryCode.push(setheight);
+    console.log("setheight: ", setheight);
+    quoteSummaryCode.push(bfstyle);
+    console.log("bfstyle: ", bfstyle);
+    quoteSummaryCode.push(bfconfig);
+    console.log("bfconfig: ", bfconfig);
+    quoteSummaryCode.push(colexternal);
+    console.log("colexternal: ", colexternal);
+    quoteSummaryCode.push(colinternal);
+    console.log("colinternal: ", colinternal);
+    quoteSummaryCode.push(TVs);
+    console.log("TVs: ", TVs);
+    //quoteSummaryCode.push(TVloc);
+    //console.log("TVloc: ", TVloc);
+    quoteSummaryCode.push(FE42val);
+    console.log("FE42val: ", FE42val);
+    quoteSummaryCode.push(FE20val);
+    console.log("FE20val: ", FE20val);
+    quoteSummaryCode.push(THval);
+    console.log("THval: ", THval);
+    quoteSummaryCode.push(CILLval);
+    console.log("CILLval: ", CILLval);
+    //quoteSummaryCode.push(Leverval);
+    //console.log("Leverval: ", Leverval);
+    //quoteSummaryCode.push(Sboltval);
+    //console.log("Sboltval: ", Sboltval);
+    //quoteSummaryCode.push(Dhandleval);
+    //console.log("Dhandleval: ", Dhandleval);
+    //quoteSummaryCode.push(Hingeval);
+    //console.log("Hingeval: ", Hingeval);
+    //quoteSummaryCode.push(Glassval);
+    //console.log("Glassval: ", Glassval);
+}
+
+
+//|   |   |   |   |   |   |   |   |   |   |   |   PRODUCE NEW TABLE FOR QUOTE SUM
+function quoteSummaryElements () {
+    const newDiv = document.createElement("div");
+    newDiv.id = "tableContainer";
+    
+    // Create the table element
+    const table = document.createElement("table");
+    table.style.borderCollapse = "collapse"; // Optional styling for table
+
+    // Define headers
+    const headers = ["Attribute", "Description", "Price"];
+
+    // Define rows with subheadings
+    const rows = [
+      // Subheading: Size & Style
+      { attribute: "Size & Style", isSubheading: true },
+      { attribute: "Size", description: "", price: "" },
+      { attribute: "Leaves Config", description: "", price: "" },
+
+      { attribute: "Colour", isSubheading: true },
+      { attribute: "Colour External", description: "", price: "" },
+      { attribute: "Colour Internal", description: "", price: "" },
+
+      { attribute: "Trickle Vents", isSubheading: true },
+      { attribute: "No Of Vents", description: "", price: "" },
+      { attribute: "Vent Location", description: "", price: "" },
+
+      { attribute: "Frame Add-Ons", isSubheading: true },
+      { attribute: "Head", description: "", price: "" },
+      { attribute: "Left", description: "", price: "" },      
+      { attribute: "Right", description: "", price: "" },      
+
+      { attribute: "Threshold & Cill", isSubheading: true },
+      { attribute: "Cill Depth", description: "", price: "" },      
+      { attribute: "Threshold", description: "", price: "" },      
+
+      { attribute: "Hardware", isSubheading: true },
+      { attribute: "Lever Handle", description: "", price: "" },      
+      { attribute: "S-Bolt", description: "", price: "" },      
+      { attribute: "D-Handle", description: "", price: "" },      
+      { attribute: "Hinges", description: "", price: "" },      
+
+      { attribute: "Glazing", isSubheading: true },
+      { attribute: "Glass Option", description: "", price: "" },      
+    ];
+
+    // Create the header row
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+
+    headers.forEach(headerText => {
+      const th = document.createElement("th");
+      th.textContent = headerText;
+      th.style.border = "1px solid black"; // Optional border styling
+      th.style.padding = "8px"; // Optional padding
+      headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create the table body with rows
+    const tbody = document.createElement("tbody");
+
+    rows.forEach(row => {
+      const tr = document.createElement("tr");
+
+      // Create the Attribute cell
+      const tdAttribute = document.createElement("td");
+      tdAttribute.textContent = row.attribute;
+      tdAttribute.style.border = "1px solid black";
+      tdAttribute.style.padding = "8px";
+
+      // Make subheadings bold and span across all columns
+      if (row.isSubheading) {
+        tdAttribute.colSpan = 3;
+        tdAttribute.style.fontWeight = "bold";
+        tdAttribute.style.textAlign = "left";
+        tr.appendChild(tdAttribute);
+      } else {
+        // Normal row with three columns
+        const tdDescription = document.createElement("td");
+        const tdPrice = document.createElement("td");
+
+        tdDescription.textContent = row.description;
+        tdPrice.textContent = row.price;
+
+        // Optional cell styling
+        tdDescription.style.border = "1px solid black";
+        tdDescription.style.padding = "8px";
+        tdPrice.style.border = "1px solid black";
+        tdPrice.style.padding = "8px";
+
+        // Append cells to the row
+        tr.appendChild(tdAttribute);
+        tr.appendChild(tdDescription);
+        tr.appendChild(tdPrice);
+      }
+
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+
+    // Append the table to the container div
+    document.getElementById("summary-page").appendChild(table);    
+}
 
