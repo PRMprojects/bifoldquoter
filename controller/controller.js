@@ -18,7 +18,7 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
     }
 });
 tabPanels[0].setAttribute("hidden", "");
-tabPanels[1].removeAttribute("hidden", ""); //          ----TAB NUMBER INITIALISATION
+tabPanels[4].removeAttribute("hidden", ""); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
     const clickedTab = e.target.closest("a");
@@ -26,7 +26,6 @@ tabsContainer.addEventListener("click", (e) => {
     e.preventDefault();
 
     switchTab(clickedTab);
-    console.log(clickedTab);
 })
 
 function getOpenTab () {
@@ -41,61 +40,95 @@ function storeMainViewPane() {
 }
 storeMainViewPane();
 
-function restoreMainViewPane() {
-    const mainViewPane = document.getElementById("main-view-pane");
-    mainViewPaneEl.forEach(el => mainViewPane.appendChild(el));
-    mainViewPaneEl = [];
-}
+//function restoreMainViewPane() {
+//    const mainViewPane = document.getElementById("main-view-pane");
+//    mainViewPaneEl.forEach(el => mainViewPane.appendChild(el));
+//    mainViewPaneEl = [];
+//}
 
 function switchTab(tabX) {
+    console.log("switchTab is being run");
     const activePanelId = tabX.getAttribute('href');
+    console.log("activePanelId:", activePanelId);
+    //console.log("tabsContainer:", tabsContainer);
     const activePanel = tabsContainer.querySelector(activePanelId);
+    console.log("tabsContainer: ", tabsContainer);
+    console.log("activePanel:", activePanel);
+    function runTabSwitcher () {
+        
+        tabPanels.forEach((panel) => {
+            panel.setAttribute("hidden", true);
+        });
+        console.log("AP in rts:", activePanel);
+        if (activePanel) {
+            activePanel.removeAttribute("hidden");
+        }         
+    }
     
     // First, handle the main view pane movement
     const mainViewPane = document.getElementById("main-view-pane");
     const mainTabPane = document.getElementById("main-tab-pane");
     console.log(mainTabPane);
-    console.log(mainViewPane);
+    //console.log(mainViewPane);
     // Check if mainViewPane exists before trying to move it
     if (mainViewPane) {
         console.log("main view pane");
         if (activePanelId === "#summary") {
             // Moving to summary tab
-            console.log("yesmate");
-            const parentOfMainViewPane = mainViewPane.parentNode;
-            if (parentOfMainViewPane) {
-                parentOfMainViewPane.removeChild(mainViewPane);
-                mainTabPane.appendChild(mainViewPane);
-            }
+            console.log("summary button");
+            //const parentOfMainViewPane = mainViewPane.parentNode;
+            saveState();
             openSummary();
         } else {
-            // Moving from summary to another tab
-            const summaryPage = document.getElementById("summary-page");
-            console.log("nomate");
-            if (summaryPage) {
-                summaryPage.remove();
-            }
+            saveState();
+            console.log("reg buttons");//hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+            runTabSwitcher();
+            //const summaryPage = document.getElementById("summary-page");
+            //console.log("nomate");
+            //if (summaryPage) {
+            //    summaryPage.remove();
+            //}
+            //restoreState();
             // Ensure mainViewPane is in the correct location
+            }
+        
+        } else {
+            console.log("down here");
+            const summaryPage = document.getElementById("summary-page");
+            summaryPage.remove();
+            restoreState();
+            fieldsReset();
+            runTabSwitcher();
             
-        }
-    } else {
-        if (!mainTabPane.contains(mainViewPane)) {
-            const newMainViewPane = document.createElement("div");
-            newMainViewPane.id = "main-view-pane";
-            mainTabPane.appendChild(newMainViewPane);
-            restoreMainViewPane();
-        }
-        console.log("no main view pane");
+            
+            
+            console.log("no main view pane");
     }
 
     // Then handle panel visibility
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    });
     
-    if (activePanel) {
-        activePanel.removeAttribute("hidden");
-    }
+}
+
+//|   |   |   |   |   |   |   |   |   |   |   |   STATE CONTROL
+let elementstate = [];
+function saveState() {
+    elementstate = [];
+    elementstate = document.querySelectorAll("#main-view-pane");
+    console.log(elementstate);
+}
+function restoreState() {
+    elementstate.forEach(element => {
+        document.querySelector("#main-tab-pane").appendChild(element.cloneNode(true));
+    });
+}
+saveState();
+function fieldsReset() {
+    setWidth(setwidth);
+    setHeight(setheight);
+    //availableLeavesCalc();
+    //showLeafButtons();
+    
+    draw();
 }
 
 //|   |   |   |   |   |   |   |   |   |   |   |   BACK & CONTINUE BUTTONS
@@ -431,21 +464,37 @@ function addStyleButtons () {
         }
     
 };
-var availableStyleButtons = document.getElementById("available-style-buttonsid");
-if (availableStyleButtons) {
-    availableStyleButtons = document.getElementById("available-style-buttonsid");
-    availableStyleButtons.addEventListener("click", (event) => {
-        if (event && event.target && event.target.id) {
-            bfconfig = event.target.id;
-            console.log("bfconfig: ", bfconfig);
-        }
-    });
-}
+var availableStyleButtons = document.getElementById("available-style-buttons");
+availableStyleButtons.addEventListener("click", (event) => {
+    //if (event && event.target && event.target.id) {
+    //    bfconfig = event.target.id;
+    //    console.log("bfconfig: ", bfconfig);
+        
+});
+//    }
+//);
+
 //|   |   |   |   |   |   |   |   |   |   |   |   FRAME OPTIONS
 var fOptTV = document.getElementById('TVSELECT');
 var fOpt42 = document.getElementById('FE42SELECT');
 var fOpt20 = document.getElementById('FE20SELECT');
 var fOptCill = document.getElementById('CILLSELECT');
+
+var TVloc = "None";
+TVHSSELECT.addEventListener("change", (event) => {
+    TVloc = TVHSSELECT.value;
+    const TVlocoptions = {
+        head: ['Head', 'Head & Sides', 'Left', 'Right'],
+        sash: ['None', 'Head', 'Sides', 'Head & Sides', 'Left', 'Right']
+    };
+
+    const options = TVloc === "Head" ? TVlocoptions.head : TVlocoptions.sash;
+    FE42SELECT.innerHTML = options.map(opt => 
+        `<option value="${opt}"${opt === 'None' ? ' selected' : ''}>${opt}</option>`
+    ).join('');
+});
+
+console.log("TVloc: ", TVloc);
 
 //fOptTV.addEventListener('change', (event) => {
 //    var selectedOption = fOptTV.options[fOptTV.selectedIndex].text;
@@ -522,6 +571,11 @@ THRESHOLDSELECT.addEventListener("change", (event) => {
     //AI gen need to understand this
 })
 //|   |   |   |   |   |   |   |   |   |   |   |   GLAZING OPTIONS
+var Glassval = "Clear 1.4";
+GLAZINGSELECT.addEventListener("change", (event) => {
+    Glassval = GLAZINGSELECT.value;
+    
+})
 //|   |   |   |   |   |   |   |   |   |   |   |   FRAME DIMENSIONS SETUP
 var FrameInitW,pFrameW,xmove1,xmove2,xmove3,xmove4,pFrameWD,pGasketW,pGasketWD,pSashWT,pSashWD,pSGE,pSashWST,pSashWF,xmovec,pSashWFD,pGlassWD;
 var pOFD = 4;
@@ -576,16 +630,16 @@ function convertHeightToPixel(x) {
     pGlassHD = pSashH - (pSD * 2);
     ymove4 = pOFD + pGD + pSD + pHED;
 
-    console.log("---------hinput: ", x);
-    console.log("conv: ", conv);
-    console.log("FrameInit: ", FrameInitH);
-    console.log("pFrameH: ", pFrameH);
-    console.log("pFrameHD: ", pFrameHD);
-    console.log("pHGasketH: ", pGasketH);
-    console.log("pHGasketHD: ", pGasketHD);
-    console.log("pSashH", pSashH);
-    console.log("pSashHD", pSashHD);
-    console.log("pGlassH: ", pGlassHD);
+    //console.log("---------hinput: ", x);
+    //console.log("conv: ", conv);
+    //console.log("FrameInit: ", FrameInitH);
+    //console.log("pFrameH: ", pFrameH);
+    //console.log("pFrameHD: ", pFrameHD);
+    //console.log("pHGasketH: ", pGasketH);
+    //console.log("pHGasketHD: ", pGasketHD);
+    //console.log("pSashH", pSashH);
+    //console.log("pSashHD", pSashHD);
+    //console.log("pGlassH: ", pGlassHD);
 }
 
 leafbuttonsid.addEventListener("click", (event) => {
@@ -610,13 +664,13 @@ const divElement = document.getElementById('available-style-buttons');
 
 //|   |   |   |   |   |   |   |   |   |   |   |   PRICING
 var TVs = 0;
-var TVYN;
-TVYES.addEventListener("click", (event) => {
-    TVYN = "yes";
-})
-TVNO.addEventListener("click", (event) => {
-    TVYN = "no";
-})
+//var TVYN;
+//TVYES.addEventListener("click", (event) => {
+//    TVYN = "yes";
+//})
+//TVNO.addEventListener("click", (event) => {
+//    TVYN = "no";
+//})
 TVSELECT.addEventListener("change", (event) => {
     TVs = TVSELECT.value;
     document.getElementById("fOptTest").textContent = TVs;
@@ -724,11 +778,10 @@ function getPricing() {
     //const FE20price = FE20Cost;
 
     var totalpriceexvat = plp * bfstyle;
-    if (TVYN === "yes") {
-        totalpriceexvat += (TVs * TVcost);
-    } else {
-        totalpriceexvat += 0;
-    }        
+    
+    totalpriceexvat += (TVs * TVcost);
+    
+            
     
     totalpriceexvat += FE42price + FE20price;
     totalpriceexvat += CILLprice;
@@ -858,8 +911,8 @@ function runSample () {
     console.log("colinternal: ", colinternal);
     quoteSummaryCode.push(TVs);
     console.log("TVs: ", TVs);
-    //quoteSummaryCode.push(TVloc);
-    //console.log("TVloc: ", TVloc);
+    quoteSummaryCode.push(TVloc);
+    console.log("TVloc: ", TVloc);
     quoteSummaryCode.push(FE42val);
     console.log("FE42val: ", FE42val);
     quoteSummaryCode.push(FE20val);
@@ -884,6 +937,7 @@ function runSample () {
 //|   |   |   |   |   |   |   |   |   |   |   |   PRODUCE NEW TABLE FOR QUOTE SUM
 function quoteSummaryElements () {
     const newDiv = document.createElement("div");
+    
     newDiv.id = "tableContainer";
     
     // Create the table element
@@ -897,25 +951,25 @@ function quoteSummaryElements () {
     const rows = [
       // Subheading: Size & Style
       { attribute: "Size & Style", isSubheading: true },
-      { attribute: "Size", description: "", price: "" },
-      { attribute: "Leaves Config", description: "", price: "" },
+      { attribute: "Size", description: setwidth + "mm" + " x " + setheight + "mm", price: "" },
+      { attribute: "Style", description: bfconfig, price: "" },
 
       { attribute: "Colour", isSubheading: true },
-      { attribute: "Colour External", description: "", price: "" },
-      { attribute: "Colour Internal", description: "", price: "" },
+      { attribute: "Colour External", description: colexternal, price: "" },
+      { attribute: "Colour Internal", description: colinternal, price: "" },
 
       { attribute: "Trickle Vents", isSubheading: true },
-      { attribute: "No Of Vents", description: "", price: "" },
-      { attribute: "Vent Location", description: "", price: "" },
+      { attribute: "No Of Vents", description: TVs, price: "" },
+      { attribute: "Vent Location", description: TVloc, price: "" },
 
       { attribute: "Frame Add-Ons", isSubheading: true },
-      { attribute: "Head", description: "", price: "" },
-      { attribute: "Left", description: "", price: "" },      
-      { attribute: "Right", description: "", price: "" },      
+      { attribute: "Head", description: FE42val, price: "" },
+      { attribute: "Left", description: FE20val, price: "" },      
+      { attribute: "Right", description: FE20val, price: "" },      
 
       { attribute: "Threshold & Cill", isSubheading: true },
-      { attribute: "Cill Depth", description: "", price: "" },      
-      { attribute: "Threshold", description: "", price: "" },      
+      { attribute: "Cill Depth", description: CILLval, price: "" },      
+      { attribute: "Threshold", description: THval, price: "" },      
 
       { attribute: "Hardware", isSubheading: true },
       { attribute: "Lever Handle", description: "", price: "" },      
@@ -924,7 +978,7 @@ function quoteSummaryElements () {
       { attribute: "Hinges", description: "", price: "" },      
 
       { attribute: "Glazing", isSubheading: true },
-      { attribute: "Glass Option", description: "", price: "" },      
+      { attribute: "Glass Option", description: Glassval, price: "" },      
     ];
 
     // Create the header row
@@ -986,6 +1040,8 @@ function quoteSummaryElements () {
     table.appendChild(tbody);
 
     // Append the table to the container div
-    document.getElementById("summary-page").appendChild(table);    
+    table.id = "main-table-view";
+    document.getElementById("summary-page").appendChild(newDiv);
+    newDiv.appendChild(table);    
 }
 

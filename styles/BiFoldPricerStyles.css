@@ -138,6 +138,42 @@ li {
 .reg-col-labels {
     display: block;
 }
+#table-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#main-table-view {
+    grid-column: 0;
+}   
+
+.dhandle-buttons {
+    display: grid;
+    grid-template-columns: 22px 30% 70%;
+    grid-auto-rows: 30px;
+    gap: 4px;
+}
+
+.dhandle-buttons input[type="radio"] {
+    grid-column: 1;
+}
+
+.dhandle-buttons label {
+    grid-column: 2;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.dhandle-buttons img {
+    grid-column: 3;
+    grid-row: 1;
+    
+    grid-row: 1 / span 4;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+
 /*
                                                                  IMAGE ELEMENT CSS STYLES
 */

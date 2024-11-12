@@ -25,10 +25,10 @@
             <div class="main-pane" id="main-view-pane">
                 <div class="image-outview pane-style">
                     <canvas class = "canvas" id="canvas-outview"></canvas>
-                    <p>Rodney the rocket bifolds can be made to any size in 1,2,3,4,5,6 and 7 leaf BiFolding doors</p>
+                    <!--<p>Rodney the rocket bifolds can be made to any size in 1,2,3,4,5,6 and 7 leaf BiFolding doors</p>
                     <p>The standard leaf width is between 750mm and 1200mm per leaf.</p>
                     <p>The minimum width for a <span id="noleavesguidemin"> x leaf</span> door is <span id="maxwidthguidemin">xxxx</span>mm wide</p>
-                    <p>The maximum width for a <span id="noleavesguidemax"> x leaf</span> door is <span id="maxwidthguidemax">xxxx</span>mm wide</p>
+                    <p>The maximum width for a <span id="noleavesguidemax"> x leaf</span> door is <span id="maxwidthguidemax">xxxx</span>mm wide</p>-->
                     
                 </div>
                 
@@ -82,8 +82,7 @@
                         </div>
                         <br>
                         
-                        <label>Style Config:</label>
-                        <div id="available-style-buttonsid"></div>
+                        <label>Style Config:</label><div id="available-style-buttons"></div>
 
 
 
@@ -100,11 +99,11 @@
                         
                     </div>
                     <div id="frame-options" aria-labelledby="tab-3"><p>Frame Options</p>
-                        <label>Trickle Vents?</label>
+                        <!--<label>Trickle Vents?</label>
                         <button type="button" id="TVYES">Yes</button>
-                        <button type="button" id="TVNO">No</button>
+                        <button type="button" id="TVNO">No</button>-->
                         
-                        <br><br>
+                        
                         <label>Trickle Vents Required?</label>
                             <select id="TVSELECT">
                                 <option value="None" selected>None</option>
@@ -112,6 +111,13 @@
                                 <option value="2" >2</option>
                                 <option value="3">3</option>
                             </select>
+                        <br><br>
+                        <label>Trickle Vents In Head or Sash?</label>
+                        <select id="TVHSSELECT">
+                            <option value="None" selected>None</option>
+                            <option value="Head">Head</option>
+                            <option value="Sash">Sash</option>
+                        </select>
                         <br><br>
                         <label>Frame Extensions?</label><br>
                             <label>42mm</label>
@@ -164,13 +170,28 @@
                         <label>Lever Handle</label><br>
                         <div class="leverhandle-buttons">
                             <input type="radio" id="lhblack" name="leverhandle" value="black">
-                            <label for="lhblack">Black</label>
+                            <label for="lhblack">
+                                <img id="lhblackImg" src="images/acdv251blackleverhandle.jpg" alt="Black Lever Handle" width="50px" height="50px">
+                                Black
+                            </label><br>
+
                             <input type="radio" id="lhwhite" name="leverhandle" value="white">
-                            <label for="lhwhite">White</label>
+                            <label for="lhwhite">
+                                <img id="lhwhiteImg" src="images/acdv251whiteleverhandle.jpg" alt="White Lever Handle" width="50px" height="50px">
+                                White
+                            </label><br>
+
                             <input type="radio" id="lhchrome" name="leverhandle" value="chrome">
-                            <label for="lhchrome">Chrome</label><br>
+                            <label for="lhchrome">
+                                <img id="lhchromeImg" src="images/acdv251chromeleverhandle.jpg" alt="Chrome Lever Handle" width="50px" height="50px">
+                                Chrome
+                            </label><br>
+
                             <input type="radio" id="lhcolmatch" name="leverhandle" value="colmatch">
-                            <label for="lhcolmatch">Colour Matched</label>
+                            <label for="lhcolmatch">
+                                <img id="lhcolmatchImg" src="images/acdv251colleverhandle.jpg" alt="Colour Matched Lever Handle" width="50px" height="50px">
+                                Colour Matched
+                            </label><br>
                         </div>
                         <br><br>
                         <label>D-Handles</label><br>
@@ -182,7 +203,8 @@
                             <input type="radio" id="dhchrome" name="dhandle" value="chrome">
                             <label for="dhchrome">Chrome</label><br>
                             <input type="radio" id="dhcolmatch" name="dhandle" value="colmatch">
-                            <label for="dhcolmatch">Colour Matched</label><br>
+                            <label for="dhcolmatch">Matching</label><br>
+                            <img id="dhImg" alt="D-Handle">
                         </div>
                         <br><br>
                         <label>S-Bolt</label>
