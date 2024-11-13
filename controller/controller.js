@@ -1,10 +1,20 @@
 
 //|   |   |   |   |   |   |   |   |   |   |   |   TAB SETUP
-const tabsContainer = document.querySelector(".tab-pane");
-const tabsList = tabsContainer.querySelector("ul");
-const tabButtons = tabsList.querySelectorAll("a");
-const tabPanels = tabsContainer.querySelectorAll(".interaction-pane > div");
-const leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
+var tabsContainer = document.querySelector(".tab-pane");
+var tabsList = tabsContainer.querySelector("ul");
+var tabButtons = tabsList.querySelectorAll("a");
+var tabPanels = tabsContainer.querySelectorAll(".interaction-pane > div");
+var leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
+
+function tabSetup() {
+    tabsContainer = document.querySelector(".tab-pane");
+    tabsList = tabsContainer.querySelector("ul");
+    tabButtons = tabsList.querySelectorAll("a");
+    tabPanels = tabsContainer.querySelectorAll(".interaction-pane > div");
+    leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
+    //return tabsContainer, tabsList, tabButtons, tabPanels, leafButtons;
+}
+
 
 //|   |   |   |   |   |   |   |   |   |   |   |   TAB INDEX & SWITCHING
 
@@ -17,8 +27,8 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
         }
     }
 });
-tabPanels[0].setAttribute("hidden", "");
-tabPanels[4].removeAttribute("hidden", ""); //          ----TAB NUMBER INITIALISATION
+//tabPanels[0].setAttribute("hidden", true);
+tabPanels[1].removeAttribute("hidden", true); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
     const clickedTab = e.target.closest("a");
@@ -34,79 +44,43 @@ function getOpenTab () {
 }
 
 let mainViewPaneEl = [];
-function storeMainViewPane() {
-    const mainViewPane = document.getElementById("main-view-pane");
-    mainViewPaneEl = Array.from(mainViewPane.children).map(child => child.cloneNode(true));
-}
-storeMainViewPane();
-
-//function restoreMainViewPane() {
+//function storeMainViewPane() {
 //    const mainViewPane = document.getElementById("main-view-pane");
-//    mainViewPaneEl.forEach(el => mainViewPane.appendChild(el));
-//    mainViewPaneEl = [];
+//    mainViewPaneEl = Array.from(mainViewPane.children).map(child => child.cloneNode(true));
+//}
+//storeMainViewPane();
+
+//function restoreMainViewPane() {`
+//    const mainViewPane = document.getElementById("main-view-pane");`
+//    mainViewPaneEl.forEach(el => mainViewPane.appendChild(el));`
+//    mainViewPaneEl = [];`
 //}
 
+function testytest() {
+    //const activePanelId = tabX.getAttribute('href');
+    //const activePanel = tabsContainer.querySelector(activePanelId);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    });
+    //if (activePanel) {
+    //    activePanel.removeAttribute("hidden");
+    //}
+}
+var testtest = document.getElementById("testbutton2");
+testtest.addEventListener("click", (e) => {
+    testytest();
+})
+
 function switchTab(tabX) {
-    console.log("switchTab is being run");
     const activePanelId = tabX.getAttribute('href');
-    console.log("activePanelId:", activePanelId);
-    //console.log("tabsContainer:", tabsContainer);
     const activePanel = tabsContainer.querySelector(activePanelId);
-    console.log("tabsContainer: ", tabsContainer);
     console.log("activePanel:", activePanel);
-    function runTabSwitcher () {
-        
+    if (activePanel) {
         tabPanels.forEach((panel) => {
             panel.setAttribute("hidden", true);
         });
-        console.log("AP in rts:", activePanel);
-        if (activePanel) {
-            activePanel.removeAttribute("hidden");
-        }         
+        activePanel.removeAttribute("hidden");
     }
-    
-    // First, handle the main view pane movement
-    const mainViewPane = document.getElementById("main-view-pane");
-    const mainTabPane = document.getElementById("main-tab-pane");
-    console.log(mainTabPane);
-    //console.log(mainViewPane);
-    // Check if mainViewPane exists before trying to move it
-    if (mainViewPane) {
-        console.log("main view pane");
-        if (activePanelId === "#summary") {
-            // Moving to summary tab
-            console.log("summary button");
-            //const parentOfMainViewPane = mainViewPane.parentNode;
-            saveState();
-            openSummary();
-        } else {
-            saveState();
-            console.log("reg buttons");//hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-            runTabSwitcher();
-            //const summaryPage = document.getElementById("summary-page");
-            //console.log("nomate");
-            //if (summaryPage) {
-            //    summaryPage.remove();
-            //}
-            //restoreState();
-            // Ensure mainViewPane is in the correct location
-            }
-        
-        } else {
-            console.log("down here");
-            const summaryPage = document.getElementById("summary-page");
-            summaryPage.remove();
-            restoreState();
-            fieldsReset();
-            runTabSwitcher();
-            
-            
-            
-            console.log("no main view pane");
-    }
-
-    // Then handle panel visibility
-    
 }
 
 //|   |   |   |   |   |   |   |   |   |   |   |   STATE CONTROL
@@ -114,7 +88,11 @@ let elementstate = [];
 function saveState() {
     elementstate = [];
     elementstate = document.querySelectorAll("#main-view-pane");
-    console.log(elementstate);
+    console.log("elementstate: ", elementstate);
+}
+function removeMainViewPane() {
+    const divToRemove = document.getElementById("main-view-pane");
+    divToRemove.remove();
 }
 function restoreState() {
     elementstate.forEach(element => {
@@ -242,8 +220,7 @@ function openSummary () {
     newDivSummary.id = "summary-page";
     newDivSummary.textContent = "Summary";
     
-    const divToRemove = document.getElementById("main-view-pane");
-    divToRemove.remove();
+    
     const bodyElement = document.getElementById("main-tab-pane");
     bodyElement.appendChild(newDivSummary);
     quoteSummaryElements();
@@ -793,9 +770,14 @@ function getPricing() {
         style: 'currency',
         currency: 'GBP'
     }).format(totalpriceexvat * 1.2);
+    var formattedTotalPriceExVatValue = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'GBP'
+    }).format(totalpriceexvat * 0.2);
 
 /////why is this having ot be get element?...LOL AI said cos using hyphens
     document.getElementById("price-panel-exvat").textContent = formattedTotalPriceExVat;
+    document.getElementById("price-panel-exvat-value").textContent = formattedTotalPriceExVatValue;
     document.getElementById("price-panel-incvat").textContent = formattedTotalPriceIncVat;
 }
 
