@@ -6,14 +6,6 @@ var tabButtons = tabsList.querySelectorAll("a");
 var tabPanels = tabsContainer.querySelectorAll(".interaction-pane > div");
 var leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
 
-function tabSetup() {
-    tabsContainer = document.querySelector(".tab-pane");
-    tabsList = tabsContainer.querySelector("ul");
-    tabButtons = tabsList.querySelectorAll("a");
-    tabPanels = tabsContainer.querySelectorAll(".interaction-pane > div");
-    leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
-    //return tabsContainer, tabsList, tabButtons, tabPanels, leafButtons;
-}
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   TAB INDEX & SWITCHING
@@ -36,7 +28,7 @@ function paneViewerShow (pane) {
     paneViewer.classList.remove("pane-viewer");
 }
 //tabPanels[0].setAttribute("hidden", true);
-tabPanels[1].removeAttribute("hidden", true); //          ----TAB NUMBER INITIALISATION
+tabPanels[0].removeAttribute("hidden", true); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
     const clickedTab = e.target.closest("a");
@@ -81,15 +73,15 @@ testtest.addEventListener("click", (e) => {
 var previousTab = "";
 function switchTab(tabX) {
     const activePanelId = tabX.getAttribute('href');
-    //const activePaneId = tabX.id;
     const activePanel = tabsContainer.querySelector(activePanelId);
-    console.log("activePanel:", activePanel);
+
     function tabSwitcher() {
         tabPanels.forEach((panel) => {
             panel.setAttribute("hidden", true);
             });
             activePanel.removeAttribute("hidden");
     }
+
     if (activePanelId === "#summary") {
         console.log("summary found");
         paneViewerClear("main-view-pane");
@@ -102,6 +94,7 @@ function switchTab(tabX) {
             previousTab = activePanelId;
             
         }
+
     if (activePanel) {
         tabSwitcher();
         previousTab = activePanelId;
@@ -133,32 +126,24 @@ function fieldsReset() {
     //availableLeavesCalc();
     //showLeafButtons();
     
-    draw();
+    draw("canvas-outview");
 }
 
 //|   |   |   |   |   |   |   |   |   |   |   |   BACK & CONTINUE BUTTONS
-sizestyleback.addEventListener("click", (e) => {
-    console.log(e.target);
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    })
-    const prevPanel = tabsContainer.querySelector("#service")
-    prevPanel.removeAttribute("hidden");
-})
-frameoptionsback.addEventListener("click", (e) => {
-    console.log(e.target);
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    })
-    const prevPanel = tabsContainer.querySelector("#size-style")
-    prevPanel.removeAttribute("hidden");
-})
+//sizestyleback.addEventListener("click", (e) => {
+//    console.log(e.target);
+//    tabPanels.forEach((panel) => {
+//        panel.setAttribute("hidden", true);
+//    })
+//    const prevPanel = tabsContainer.querySelector("#service")
+//    prevPanel.removeAttribute("hidden");
+//})
 colourback.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
     })
-    const prevPanel = tabsContainer.querySelector("#frame-options")
+    const prevPanel = tabsContainer.querySelector("#size-style")
     prevPanel.removeAttribute("hidden");
 })
 hardwareoptionsback.addEventListener("click", (e) => {
@@ -185,24 +170,24 @@ glazingback.addEventListener("click", (e) => {
     const prevPanel = tabsContainer.querySelector("#threshold")
     prevPanel.removeAttribute("hidden");
 })
+frameoptionsback.addEventListener("click", (e) => {
+    console.log(e.target);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    })
+    const prevPanel = tabsContainer.querySelector("#glazing")
+    prevPanel.removeAttribute("hidden");
+})
 
-servicecontinue.addEventListener("click", (e) => {
-    console.log(e.target);
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    })
-    const nextPanel = tabsContainer.querySelector("#size-style")
-    nextPanel.removeAttribute("hidden");
-})
+//servicecontinue.addEventListener("click", (e) => {
+//    console.log(e.target);
+//    tabPanels.forEach((panel) => {
+//        panel.setAttribute("hidden", true);
+//    })
+//    const nextPanel = tabsContainer.querySelector("#size-style")
+//    nextPanel.removeAttribute("hidden");
+//})
 sizestylecontinue.addEventListener("click", (e) => {
-    console.log(e.target);
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    })
-    const nextPanel = tabsContainer.querySelector("#frame-options")
-    nextPanel.removeAttribute("hidden");
-})
-frameoptionscontinue.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
@@ -234,24 +219,14 @@ thresholdcontinue.addEventListener("click", (e) => {
     const nextPanel = tabsContainer.querySelector("#glazing")
     nextPanel.removeAttribute("hidden");
 })
-//|   |   |   |   |   |   |   |   |   |   |   |   GET QUOTE FUNCTION
 glazingcontinue.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
     })
-    openSummary();
+    const nextPanel = tabsContainer.querySelector("#frame-options")
+    nextPanel.removeAttribute("hidden");
 })
-function openSummary () {
-    const summaryDiv = document.getElementById("summary-page");
-    const bodyElement = document.getElementById("main-tab-pane");
-    bodyElement.appendChild(summaryDiv);
-    quoteSummaryElements();
-    paneViewerShow("summary-page");
-}
-
-
-
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
 var setwidth = 5000;
@@ -282,7 +257,7 @@ sizestyleinput.addEventListener("submit", (event) => {
     showLeafButtons();
     convertWidthToPixel(width);
     convertHeightToPixel(height);
-    draw();
+    draw("canvas-outview");
     
 });
 
@@ -468,51 +443,15 @@ function addStyleButtons () {
 var availableStyleButtons = document.getElementById("available-style-buttons");
 availableStyleButtons.addEventListener("click", (event) => {
     //if (event && event.target && event.target.id) {
-    //    bfconfig = event.target.id;
-    //    console.log("bfconfig: ", bfconfig);
+        bfconfig = event.target.id;
+        bfconfig = bfconfig.replace('style-', '');
+        console.log("bfconfig: ", bfconfig);
         
 });
 //    }
 //);
 
-//|   |   |   |   |   |   |   |   |   |   |   |   FRAME OPTIONS
-var fOptTV = document.getElementById('TVSELECT');
-var fOpt42 = document.getElementById('FE42SELECT');
-var fOpt20 = document.getElementById('FE20SELECT');
-var fOptCill = document.getElementById('CILLSELECT');
 
-var TVloc = "None";
-TVHSSELECT.addEventListener("change", (event) => {
-    TVloc = TVHSSELECT.value;
-    const TVlocoptions = {
-        head: ['Head', 'Head & Sides', 'Left', 'Right'],
-        sash: ['None', 'Head', 'Sides', 'Head & Sides', 'Left', 'Right']
-    };
-
-    const options = TVloc === "Head" ? TVlocoptions.head : TVlocoptions.sash;
-    FE42SELECT.innerHTML = options.map(opt => 
-        `<option value="${opt}"${opt === 'None' ? ' selected' : ''}>${opt}</option>`
-    ).join('');
-});
-
-console.log("TVloc: ", TVloc);
-
-//fOptTV.addEventListener('change', (event) => {
-//    var selectedOption = fOptTV.options[fOptTV.selectedIndex].text;
-//    document.getElementById('fOptTest').textContent = selectedOption;
-//})
-//fOpt42.addEventListener('change', (event) => {
-//    var selectedOption = fOpt42.options[fOpt42.selectedIndex].text;
-//    document.getElementById('fOptTest').textContent = selectedOption;
-//})
-//fOpt20.addEventListener('change', (event) => {
-//    var selectedOption = fOpt20.options[fOpt20.selectedIndex].text;
-//    document.getElementById('fOptTest').textContent = selectedOption;
-//})
-//fOptCill.addEventListener('change', (event) => {
-//    var selectedOption = fOptCill.options[fOptCill.selectedIndex].text;
-//    document.getElementById('fOptTest').textContent = selectedOption;
-//})
 //|   |   |   |   |   |   |   |   |   |   |   |   COLOUR OPTIONS
 const regcoloptionsexternal = document.getElementById('reg-col-options-external');
 const regcoloptionsinternal = document.getElementById('reg-col-options-internal');
@@ -539,6 +478,57 @@ function colourSelected() {
 }
 
 //|   |   |   |   |   |   |   |   |   |   |   |   HARDWARE OPTIONS
+var Leverval = "Black";
+var Sboltval = "Black";
+var Dhandleval = "Black";
+var Hingeval = "Black";
+const leverOptions = document.getElementById('lever-options');
+leverOptions.addEventListener("click", (event) => {
+    Leverval = event.target.id;
+    Leverval = Leverval.replace('lh-', '');
+    console.log("selectedLever: ", Leverval);
+})
+const sboltOptions = document.getElementById('sbolt-options');
+sboltOptions.addEventListener("click", (event) => {
+    Sboltval = event.target.id;
+    Sboltval = Sboltval.replace('sb-', '');
+    console.log("selectedSbolt: ", Sboltval);
+})
+const dhandleOptions = document.getElementById('dhandle-options');
+dhandleOptions.addEventListener("click", (event) => {
+    Dhandleval = event.target.id;
+    Dhandleval = Dhandleval.replace('dh-', '');
+    console.log("selectedDhandle: ", Dhandleval);
+})
+const hingeOptions = document.getElementById('hinge-options');
+hingeOptions.addEventListener("click", (event) => {
+    Hingeval = event.target.id;
+    Hingeval = Hingeval.replace('hinge-', '');
+    console.log("selectedHinge: ", Hingeval);
+})
+
+sboltOptions.addEventListener("click", (event) => {
+    Sboltval = event.target.id;
+    console.log("Sboltval: ", Sboltval);
+    Sboltval = Sboltval.replace('sb-', '');
+    console.log("selectedSbolt: ", Sboltval);
+    switch (Sboltval) {
+        case "Black":
+            sbImg.src = "images/acdv225blacksbolthandle.jpg";
+            break;
+        case "White":
+            sbImg.src = "images/acdv225whitesbolthandle.jpg";
+            break;
+        case "Chrome":
+            sbImg.src = "images/acdv225chromesbolthandle.jpg";
+            break;
+        case "Colmatch":
+            sbImg.src = "images/chocbuttons.jpg";
+            break;
+    }
+})
+
+
 
 
 // Get all S-bolt buttons
@@ -555,6 +545,7 @@ sboltButtons.forEach(button => {
         const selectedSbolt = this.id.replace('sb', ''); // removes 'sb' prefix to get color
     });
 });
+
 
 //|   |   |   |   |   |   |   |   |   |   |   |   THRESHOLD OPTIONS
 var THval = "Standard Frame";
@@ -577,85 +568,57 @@ GLAZINGSELECT.addEventListener("change", (event) => {
     Glassval = GLAZINGSELECT.value;
     
 })
-//|   |   |   |   |   |   |   |   |   |   |   |   FRAME DIMENSIONS SETUP
-var FrameInitW,pFrameW,xmove1,xmove2,xmove3,xmove4,pFrameWD,pGasketW,pGasketWD,pSashWT,pSashWD,pSGE,pSashWST,pSashWF,xmovec,pSashWFD,pGlassWD;
-var pOFD = 4;
-var pGD = 1.8;
-var pSD = 7;
-var pCD = 4;
-var pCill = pCD/2;
-var pHED = 5;
-var pHE = pHED/2;
-var pFELD = 3;
-var pFEL = pFELD/2;
-var pFERD = 3;
-var pFER = pFERD/2;
-var pFETD = pFELD + pFERD;
-//var pFET = pFETD/2;
-const panelpiccanvaswidth = 780; //585
-const panelpiccanvasheight = 300; //225
-const convw = (panelpiccanvaswidth)/6500;
-const convh = (panelpiccanvasheight)/2500;
-const conv = convw;
-function convertWidthToPixel(x) {
-    FrameInitW = Math.round(x*conv);
-    pFrameW = FrameInitW - pFELD - pFERD; //for now...leaves flex for add ons
-    xmove1 = pOFD/2 + pFELD;
-    pFrameWD = pFrameW - pOFD;
-    pGasketW = pFrameW - (pOFD * 2);
-    xmove2 = pOFD + (pGD/2) + pFELD;
-    pGasketWD = pGasketW - pGD;
-    pSashWT = pGasketW - (pGD * 2);
-    xmove3 = pOFD + pGD + (pSD/2) + pFELD;
-    pSashWD = pSashWT - pSD;
-    pSGE = (bfstyle - 1) * pGD;
-    pSashWST = pSashWT - pSGE;
-    pSashWF = pSashWST/bfstyle;
-    xmovec = pSashWF + pGD;
-    pSashWFD = pSashWF - pSD;
-    pGlassWD = pSashWF - (pSD * 2);
-    xmove4 = pOFD + pGD + pSD + pFELD;
-}
-var FrameInitH,pFrameH,ymove1,ymove2,ymove3,ymove4,pFrameHD,pGasketH,pGasketHD,pSashH,pSashHD,pGlassHD;
-function convertHeightToPixel(x) {
-    FrameInitH = Math.round(x*conv);
-    pFrameH = FrameInitH - pCD - pHED;
-    ymove1 = pOFD/2 + pHED;
-    pFrameHD = pFrameH - pOFD;
-    pGasketH = pFrameH - (pOFD * 2);
-    ymove2 = pOFD + (pGD/2) + pHED;
-    pGasketHD = pGasketH - pGD;
-    pSashH = pGasketH - (pGD * 2);
-    ymove3 = pOFD + pGD + (pSD/2) + pHED;
-    pSashHD = pSashH - pSD;
-    pGlassHD = pSashH - (pSD * 2);
-    ymove4 = pOFD + pGD + pSD + pHED;
 
-    //console.log("---------hinput: ", x);
-    //console.log("conv: ", conv);
-    //console.log("FrameInit: ", FrameInitH);
-    //console.log("pFrameH: ", pFrameH);
-    //console.log("pFrameHD: ", pFrameHD);
-    //console.log("pHGasketH: ", pGasketH);
-    //console.log("pHGasketHD: ", pGasketHD);
-    //console.log("pSashH", pSashH);
-    //console.log("pSashHD", pSashHD);
-    //console.log("pGlassH: ", pGlassHD);
-}
+//|   |   |   |   |   |   |   |   |   |   |   |   FRAME OPTIONS
+var fOptTV = document.getElementById('TVSELECT');
+var fOpt42 = document.getElementById('FE42SELECT');
+var fOpt20 = document.getElementById('FE20SELECT');
+var fOptCill = document.getElementById('CILLSELECT');
 
-leafbuttonsid.addEventListener("click", (event) => {
-    const snode = document.getElementById("available-style-buttons");
-    while (snode.firstChild) {
-        snode.removeChild(snode.lastChild);
+var FE42val = "None";
+var FE20val = "None";
+var TVloc = "None";
+TVHSSELECT.addEventListener("change", (event) => {
+    TVloc = TVHSSELECT.value;
+    const TVlocoptions = {
+        head: ['Head', 'Head & Sides', 'Head & Left', 'Head & Right'],
+        sash: ['None', 'Head', 'Sides', 'Head & Sides', 'Left', 'Right']
+    };
+    const options = TVloc === "Head" ? TVlocoptions.head : TVlocoptions.sash;
+    FE42SELECT.innerHTML = options.map(opt => 
+        `<option value="${opt}"${opt === 'None' ? ' selected' : ''}>${opt}</option>`
+    ).join('');
+
+    const TVloc20options = {
+        head: ['None', 'Sides', 'Left', 'Right'],
+        other: ['None', 'Head', 'Sides', 'Head & Sides', 'Left', 'Right']
     }
-    addStyleButtons();
-    convertWidthToPixel(width);
-    convertHeightToPixel(height);
-    draw();
+    const options20 = TVloc === "Head" ? TVloc20options.head : TVloc20options.other;
+    FE20SELECT.innerHTML = options20.map(opt => 
+        `<option value="${opt}"${opt === 'None' ? ' selected' : ''}>${opt}</option>`
+    ).join('');
+
 });
-convertWidthToPixel(width);
-convertHeightToPixel(height);
-draw(); //                                                                                                     page is initialised here
+
+console.log("TVloc: ", TVloc);
+
+//fOptTV.addEventListener('change', (event) => {
+//    var selectedOption = fOptTV.options[fOptTV.selectedIndex].text;
+//    document.getElementById('fOptTest').textContent = selectedOption;
+//})
+//fOpt42.addEventListener('change', (event) => {
+//    var selectedOption = fOpt42.options[fOpt42.selectedIndex].text;
+//    document.getElementById('fOptTest').textContent = selectedOption;
+//})
+//fOpt20.addEventListener('change', (event) => {
+//    var selectedOption = fOpt20.options[fOpt20.selectedIndex].text;
+//    document.getElementById('fOptTest').textContent = selectedOption;
+//})
+//fOptCill.addEventListener('change', (event) => {
+//    var selectedOption = fOptCill.options[fOptCill.selectedIndex].text;
+//    document.getElementById('fOptTest').textContent = selectedOption;
+//})
+//                                                                                     page is initialised here
 
 const divElement = document.getElementById('available-style-buttons');
 
@@ -678,7 +641,7 @@ TVSELECT.addEventListener("change", (event) => {
     getPricing();
 })
 
-var FE42val = "None";
+
 FE42SELECT.addEventListener("change", (event) => {
     FE42val = FE42SELECT.value;
     console.log("FE42val: ", FE42val);
@@ -712,7 +675,7 @@ function FE42coster() {
 
 }//potentially rewrite here to be more efficient
 
-var FE20val = "None";
+
 FE20SELECT.addEventListener("change", (event) => {
     FE20val = FE20SELECT.value;
     console.log("FE20val: ", FE20val);
@@ -810,8 +773,73 @@ getPricing();
 //|   |   |   |   |   |   |   |   |   |   |   |   DRAWING
 //of = 6.24; //52*conv
 //maxh = 300; //2500*conv
-function draw() {
-    const canvas = document.getElementById("canvas-outview");
+var FrameInitW,pFrameW,xmove1,xmove2,xmove3,xmove4,pFrameWD,pGasketW,pGasketWD,pSashWT,pSashWD,pSGE,pSashWST,pSashWF,xmovec,pSashWFD,pGlassWD;
+var pOFD = 4;
+var pGD = 1.8;
+var pSD = 7;
+var pCD = 4;
+var pCill = pCD/2;
+var pHED = 5;
+var pHE = pHED/2;
+var pFELD = 3;
+var pFEL = pFELD/2;
+var pFERD = 3;
+var pFER = pFERD/2;
+var pFETD = pFELD + pFERD;
+//var pFET = pFETD/2;
+const panelpiccanvaswidth = 780; //585
+const panelpiccanvasheight = 300; //225
+const convw = (panelpiccanvaswidth)/6500;
+const convh = (panelpiccanvasheight)/2500;
+const conv = convw;
+function convertWidthToPixel(x) {
+    FrameInitW = Math.round(x*conv);
+    pFrameW = FrameInitW - pFELD - pFERD; //for now...leaves flex for add ons
+    xmove1 = pOFD/2 + pFELD;
+    pFrameWD = pFrameW - pOFD;
+    pGasketW = pFrameW - (pOFD * 2);
+    xmove2 = pOFD + (pGD/2) + pFELD;
+    pGasketWD = pGasketW - pGD;
+    pSashWT = pGasketW - (pGD * 2);
+    xmove3 = pOFD + pGD + (pSD/2) + pFELD;
+    pSashWD = pSashWT - pSD;
+    pSGE = (bfstyle - 1) * pGD;
+    pSashWST = pSashWT - pSGE;
+    pSashWF = pSashWST/bfstyle;
+    xmovec = pSashWF + pGD;
+    pSashWFD = pSashWF - pSD;
+    pGlassWD = pSashWF - (pSD * 2);
+    xmove4 = pOFD + pGD + pSD + pFELD;
+}
+var FrameInitH,pFrameH,ymove1,ymove2,ymove3,ymove4,pFrameHD,pGasketH,pGasketHD,pSashH,pSashHD,pGlassHD;
+function convertHeightToPixel(x) {
+    FrameInitH = Math.round(x*conv);
+    pFrameH = FrameInitH - pCD - pHED;
+    ymove1 = pOFD/2 + pHED;
+    pFrameHD = pFrameH - pOFD;
+    pGasketH = pFrameH - (pOFD * 2);
+    ymove2 = pOFD + (pGD/2) + pHED;
+    pGasketHD = pGasketH - pGD;
+    pSashH = pGasketH - (pGD * 2);
+    ymove3 = pOFD + pGD + (pSD/2) + pHED;
+    pSashHD = pSashH - pSD;
+    pGlassHD = pSashH - (pSD * 2);
+    ymove4 = pOFD + pGD + pSD + pHED;
+
+    //console.log("---------hinput: ", x);
+    //console.log("conv: ", conv);
+    //console.log("FrameInit: ", FrameInitH);
+    //console.log("pFrameH: ", pFrameH);
+    //console.log("pFrameHD: ", pFrameHD);
+    //console.log("pHGasketH: ", pGasketH);
+    //console.log("pHGasketHD: ", pGasketHD);
+    //console.log("pSashH", pSashH);
+    //console.log("pSashHD", pSashHD);
+    //console.log("pGlassH: ", pGlassHD);
+}
+//let canvas;
+function draw(theview) {
+    const canvas = document.getElementById(theview);
     if (canvas.getContext) {
         const outview = canvas.getContext("2d");
         outview.clearRect(0, 0, canvas.width, canvas.height)
@@ -886,6 +914,10 @@ function draw() {
             outview.lineTo(xStart+xmove2+(pSashWF+pGD)*i,yStart+ymove2+pSashH+pGD);
             outview.stroke();
         }
+        //              ------BFS ARROWS
+        outview.lineWidth = pSD;
+        outview.strokeStyle = '#383e42'
+        
         //              ------GLASS PANES
         outview.fillStyle = '#ADD8E6'
         //outview.fillRect(xStart+xmove4,yStart+ymove4,pGlassWD,pGlassHD);
@@ -894,7 +926,21 @@ function draw() {
         }
     }
 }
+
 //window.addEventListener("load");
+leafbuttonsid.addEventListener("click", (event) => {
+    const snode = document.getElementById("available-style-buttons");
+    while (snode.firstChild) {
+        snode.removeChild(snode.lastChild);
+    }
+    addStyleButtons();
+    convertWidthToPixel(width);
+    convertHeightToPixel(height);
+    draw("#canvas-outview");
+});
+convertWidthToPixel(width);
+convertHeightToPixel(height);
+draw("canvas-outview"); //                
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   VARIABLE STORAGE AND ENCODE/DECODE
@@ -927,27 +973,37 @@ function runSample () {
     console.log("THval: ", THval);
     quoteSummaryCode.push(CILLval);
     console.log("CILLval: ", CILLval);
-    //quoteSummaryCode.push(Leverval);
-    //console.log("Leverval: ", Leverval);
-    //quoteSummaryCode.push(Sboltval);
-    //console.log("Sboltval: ", Sboltval);
-    //quoteSummaryCode.push(Dhandleval);
-    //console.log("Dhandleval: ", Dhandleval);
-    //quoteSummaryCode.push(Hingeval);
-    //console.log("Hingeval: ", Hingeval);
-    //quoteSummaryCode.push(Glassval);
-    //console.log("Glassval: ", Glassval);
+    quoteSummaryCode.push(Leverval);
+    console.log("Leverval: ", Leverval);
+    quoteSummaryCode.push(Sboltval);
+    console.log("Sboltval: ", Sboltval);
+    quoteSummaryCode.push(Dhandleval);
+    console.log("Dhandleval: ", Dhandleval);
+    quoteSummaryCode.push(Hingeval);
+    console.log("Hingeval: ", Hingeval);
+    quoteSummaryCode.push(Glassval);
+    console.log("Glassval: ", Glassval);
 }
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   PRODUCE NEW TABLE FOR QUOTE SUM
+function openSummary () {
+    var summaryTable = document.getElementById("tableContainer");
+    if (summaryTable) {
+        while (summaryTable.children[0].firstChild) {
+            summaryTable.children[0].removeChild(summaryTable.children[0].firstChild);
+        }
+    }
+
+    quoteSummaryElements();
+    draw("summary-pic");
+    paneViewerShow("summary-page");
+}
 function quoteSummaryElements () {
-    const newDiv = document.createElement("div");
-    
-    newDiv.id = "tableContainer";
-    
+    var summaryTable = document.getElementById("tableContainer");
+    summaryTable.children[0].id = "main-table-view";
     // Create the table element
-    const table = document.createElement("table");
+    const table = document.getElementById("main-table-view");
     table.style.borderCollapse = "collapse"; // Optional styling for table
 
     // Define headers
@@ -958,7 +1014,7 @@ function quoteSummaryElements () {
       // Subheading: Size & Style
       { attribute: "Size & Style", isSubheading: true },
       { attribute: "Size", description: setwidth + "mm" + " x " + setheight + "mm", price: "" },
-      { attribute: "Style", description: bfconfig, price: "" },
+      { attribute: "Style", description: bfconfig + " - " + bfstyle + " leaves", price: "" },
 
       { attribute: "Colour", isSubheading: true },
       { attribute: "Colour External", description: colexternal, price: "" },
@@ -969,19 +1025,18 @@ function quoteSummaryElements () {
       { attribute: "Vent Location", description: TVloc, price: "" },
 
       { attribute: "Frame Add-Ons", isSubheading: true },
-      { attribute: "Head", description: FE42val, price: "" },
-      { attribute: "Left", description: FE20val, price: "" },      
-      { attribute: "Right", description: FE20val, price: "" },      
+      { attribute: "42mm Add-Ons", description: FE42val, price: "" },
+      { attribute: "20mm Add-Ons", description: FE20val, price: "" },      
 
       { attribute: "Threshold & Cill", isSubheading: true },
       { attribute: "Cill Depth", description: CILLval, price: "" },      
       { attribute: "Threshold", description: THval, price: "" },      
 
       { attribute: "Hardware", isSubheading: true },
-      { attribute: "Lever Handle", description: "", price: "" },      
-      { attribute: "S-Bolt", description: "", price: "" },      
-      { attribute: "D-Handle", description: "", price: "" },      
-      { attribute: "Hinges", description: "", price: "" },      
+      { attribute: "Lever Handle", description: Leverval, price: "" },      
+      { attribute: "S-Bolt", description: Sboltval, price: "" },      
+      { attribute: "D-Handle", description: Dhandleval, price: "" },      
+      { attribute: "Hinges", description: Hingeval, price: "" },      
 
       { attribute: "Glazing", isSubheading: true },
       { attribute: "Glass Option", description: Glassval, price: "" },      
@@ -1044,10 +1099,5 @@ function quoteSummaryElements () {
     });
 
     table.appendChild(tbody);
-
-    // Append the table to the container div
-    table.id = "main-table-view";
-    document.getElementById("summary-page").appendChild(newDiv);
-    newDiv.appendChild(table);    
 }
 
