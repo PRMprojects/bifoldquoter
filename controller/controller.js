@@ -27,6 +27,14 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
         }
     }
 });
+function paneViewerClear (pane) {
+    var paneViewer = document.getElementById(pane);
+    paneViewer.classList.add("pane-viewer");
+}
+function paneViewerShow (pane) {
+    var paneViewer = document.getElementById(pane);
+    paneViewer.classList.remove("pane-viewer");
+}
 //tabPanels[0].setAttribute("hidden", true);
 tabPanels[1].removeAttribute("hidden", true); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
@@ -70,18 +78,37 @@ var testtest = document.getElementById("testbutton2");
 testtest.addEventListener("click", (e) => {
     testytest();
 })
-
+var previousTab = "";
 function switchTab(tabX) {
     const activePanelId = tabX.getAttribute('href');
+    //const activePaneId = tabX.id;
     const activePanel = tabsContainer.querySelector(activePanelId);
     console.log("activePanel:", activePanel);
-    if (activePanel) {
+    function tabSwitcher() {
         tabPanels.forEach((panel) => {
             panel.setAttribute("hidden", true);
-        });
-        activePanel.removeAttribute("hidden");
+            });
+            activePanel.removeAttribute("hidden");
+    }
+    if (activePanelId === "#summary") {
+        console.log("summary found");
+        paneViewerClear("main-view-pane");
+        openSummary();
+        previousTab = activePanelId;
+    } else {
+        if (previousTab === "#summary") {
+            paneViewerClear("summary-page");
+            paneViewerShow("main-view-pane");
+            previousTab = activePanelId;
+            
+        }
+    if (activePanel) {
+        tabSwitcher();
+        previousTab = activePanelId;
+        }
     }
 }
+
 
 //|   |   |   |   |   |   |   |   |   |   |   |   STATE CONTROL
 let elementstate = [];
@@ -216,16 +243,13 @@ glazingcontinue.addEventListener("click", (e) => {
     openSummary();
 })
 function openSummary () {
-    const newDivSummary = document.createElement("div");
-    newDivSummary.id = "summary-page";
-    newDivSummary.textContent = "Summary";
-    
-    
+    const summaryDiv = document.getElementById("summary-page");
     const bodyElement = document.getElementById("main-tab-pane");
-    bodyElement.appendChild(newDivSummary);
+    bodyElement.appendChild(summaryDiv);
     quoteSummaryElements();
-
+    paneViewerShow("summary-page");
 }
+
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS

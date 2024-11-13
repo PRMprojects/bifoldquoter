@@ -9,12 +9,8 @@ body,html {
     border-style: solid;
     border-width: 1px;
 }*/
-/*
-                                                                BOX LAYOUT CSS STYLES & BORDERS
-*/
-
-
-
+/*-                                                                UTILITIES
+//                                                                BOX LAYOUT CSS STYLES & BORDERS */
 .main-pane {
     width: 100%;
     max-width: 1200px;
@@ -234,3 +230,12 @@ div.image-outview p {
     justify-self: center;
 }
 
+
+
+
+.pane-viewer {
+    display: none;
+}
+.pane-viewer-text {
+    display: none;
+}
