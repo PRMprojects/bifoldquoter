@@ -575,33 +575,72 @@ var fOpt42 = document.getElementById('FE42SELECT');
 var fOpt20 = document.getElementById('FE20SELECT');
 var fOptCill = document.getElementById('CILLSELECT');
 
+var TVs = 0;
+var TVloc = "None";
 var FE42val = "None";
 var FE20val = "None";
-var TVloc = "None";
+var CILLval = "150mm";
 TVHSSELECT.addEventListener("change", (event) => {
     TVloc = TVHSSELECT.value;
     const TVlocoptions = {
-        head: ['Head', 'Head & Sides', 'Head & Left', 'Head & Right'],
-        sash: ['None', 'Head', 'Sides', 'Head & Sides', 'Left', 'Right']
+        head: ['Head', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right'],
+        sash: ['None', 'Head', 'Sides', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right']
     };
     const options = TVloc === "Head" ? TVlocoptions.head : TVlocoptions.sash;
     FE42SELECT.innerHTML = options.map(opt => 
-        `<option value="${opt}"${opt === 'None' ? ' selected' : ''}>${opt}</option>`
+        `<option value="${opt}">${opt}</option>`
     ).join('');
+    document.getElementById("FE42SELECT").dispatchEvent(new Event('change'));
 
     const TVloc20options = {
         head: ['None', 'Sides', 'Left', 'Right'],
-        other: ['None', 'Head', 'Sides', 'Head & Sides', 'Left', 'Right']
+        other: ['None', 'Head', 'Sides', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right']
     }
     const options20 = TVloc === "Head" ? TVloc20options.head : TVloc20options.other;
     FE20SELECT.innerHTML = options20.map(opt => 
-        `<option value="${opt}"${opt === 'None' ? ' selected' : ''}>${opt}</option>`
+        `<option value="${opt}">${opt}</option>`
     ).join('');
-
+    document.getElementById("FE20SELECT").dispatchEvent(new Event('change'));
+    FE42coster();
+    FE20coster();
 });
 
 console.log("TVloc: ", TVloc);
 
+TVSELECT.addEventListener("change", (event) => {
+    var TVtemp = TVSELECT.value;
+    if (TVtemp === "None") {
+        TVs = 0;
+    } else {
+        TVs = TVSELECT.value;
+    }
+    document.getElementById("fOptTest").textContent = TVs;
+    TVcoster();
+})
+FE42SELECT.addEventListener("change", (event) => {
+    var FE42temp = FE42SELECT.value;
+    if (FE42temp === "None") {
+        FE42val = "None";
+    } else {
+        FE42val = FE42SELECT.value;
+    }
+    console.log("FE42val: ", FE42val);
+    FE42coster();
+})
+FE20SELECT.addEventListener("change", (event) => {
+    var FE20temp = FE20SELECT.value;
+    if (FE20temp === "None") {
+        FE20val = "None";
+    } else {
+        FE20val = FE20SELECT.value;
+    }
+    console.log("FE20val: ", FE20val);
+    FE20coster();
+})
+CILLSELECT.addEventListener("change", (event) => {
+    CILLval = CILLSELECT.value;
+    CILLcoster();
+})
 //fOptTV.addEventListener('change', (event) => {
 //    var selectedOption = fOptTV.options[fOptTV.selectedIndex].text;
 //    document.getElementById('fOptTest').textContent = selectedOption;
@@ -627,7 +666,22 @@ const divElement = document.getElementById('available-style-buttons');
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   PRICING
-var TVs = 0;
+var plp = 590;
+var totalpriceexvat = 0;
+var formattedTotalPriceExVat = "";
+var formattedTotalPriceIncVat = "";
+var formattedTotalPriceVatValue = "";
+
+const TVcost = 12;
+const FE42cost = 20;
+const CILLcost = 10;
+const FE20cost = 15;
+ 
+var baseprice = 0;
+var FE20price = 0;
+var CILLprice = 0;
+var FE42price = 0;
+var TVPrice = 0;
 //var TVYN;
 //TVYES.addEventListener("click", (event) => {
 //    TVYN = "yes";
@@ -635,23 +689,11 @@ var TVs = 0;
 //TVNO.addEventListener("click", (event) => {
 //    TVYN = "no";
 //})
-TVSELECT.addEventListener("change", (event) => {
-    TVs = TVSELECT.value;
-    document.getElementById("fOptTest").textContent = TVs;
+function TVcoster() {
+    TVPrice = TVs * TVcost;
     getPricing();
-})
-
-
-FE42SELECT.addEventListener("change", (event) => {
-    FE42val = FE42SELECT.value;
-    console.log("FE42val: ", FE42val);
-    FE42coster();
-    getPricing();
-})
-//write FE20
-var FE42price = 0;
+}
 function FE42coster() {
-    const FE42cost = 20;
     switch(FE42val) {
         case "None":
             FE42price = 0;
@@ -665,6 +707,12 @@ function FE42coster() {
         case "Head-Sides":
             FE42price = (setwidth/1000 * FE42cost) + (setheight/1000 * FE42cost * 2);
             break;
+        case "Head-Left":
+            FE42price = (setwidth/1000 * FE42cost) + (setheight/1000 * FE42cost);
+            break;
+        case "Head-Right":
+            FE42price = (setwidth/1000 * FE42cost) + (setheight/1000 * FE42cost);
+            break;
         case "Left":
             FE42price = setheight/1000 * FE42cost;
             break;
@@ -672,19 +720,10 @@ function FE42coster() {
             FE42price = setheight/1000 * FE42cost;
             break;
     }
-
-}//potentially rewrite here to be more efficient
-
-
-FE20SELECT.addEventListener("change", (event) => {
-    FE20val = FE20SELECT.value;
-    console.log("FE20val: ", FE20val);
-    FE20coster();
     getPricing();
-})
-var FE20price = 0;
-function FE20coster() {
-    const FE20cost = 15;
+
+}
+function FE20coster() {    
     switch(FE20val) {
         case "None":
             FE20price = 0;
@@ -698,25 +737,22 @@ function FE20coster() {
         case "Head-Sides":
             FE20price = (setwidth/1000 * FE20cost) + (setheight/1000 * FE20cost * 2);
             break;
+        case "Head-Left":
+            FE20price = (setwidth/1000 * FE20cost) + (setheight/1000 * FE20cost);
+            break;
+        case "Head-Right":
+            FE20price = (setwidth/1000 * FE20cost) + (setheight/1000 * FE20cost);
+            break;
         case "Left":
             FE20price = setheight/1000 * FE20cost;
             break;
         case "Right":
             FE20price = setheight/1000 * FE20cost;
             break;
-    }   
-}
-
-var CILLprice = 0;
-var CILLval = "150mm";
-CILLSELECT.addEventListener("change", (event) => {
-    CILLval = CILLSELECT.value;
-    CILLcoster();
+    }
     getPricing();
-})
-var CILLprice = 0;
+}
 function CILLcoster() {
-    const CILLcost = 10;
     switch(CILLval) {
         case "None":
             CILLprice = setwidth/1000 * (CILLcost * 1 * -1);
@@ -734,37 +770,29 @@ function CILLcoster() {
             CILLprice = setwidth/1000 * (CILLcost * 0.5);
             break;
     }
+    getPricing();
 }
 function getPricing() {
-    console.log("getPricing");
-    const plp = 590;
-    const TVcost = 12;
-    //const FE20price = FE20Cost;
+    totalpriceexvat = 0;
+    baseprice = plp * bfstyle;    
+    totalpriceexvat += ( baseprice + FE42price + FE20price + CILLprice + TVPrice);
 
-    var totalpriceexvat = plp * bfstyle;
-    
-    totalpriceexvat += (TVs * TVcost);
-    
-            
-    
-    totalpriceexvat += FE42price + FE20price;
-    totalpriceexvat += CILLprice;
-    var formattedTotalPriceExVat = new Intl.NumberFormat('en-US', {
+    formattedTotalPriceExVat = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'GBP'
     }).format(totalpriceexvat);
-    var formattedTotalPriceIncVat = new Intl.NumberFormat('en-US', {
+    formattedTotalPriceIncVat = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'GBP'
     }).format(totalpriceexvat * 1.2);
-    var formattedTotalPriceExVatValue = new Intl.NumberFormat('en-US', {
+    formattedTotalPriceVatValue = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'GBP'
     }).format(totalpriceexvat * 0.2);
 
 /////why is this having ot be get element?...LOL AI said cos using hyphens
     document.getElementById("price-panel-exvat").textContent = formattedTotalPriceExVat;
-    document.getElementById("price-panel-exvat-value").textContent = formattedTotalPriceExVatValue;
+    document.getElementById("price-panel-exvat-value").textContent = formattedTotalPriceVatValue;
     document.getElementById("price-panel-incvat").textContent = formattedTotalPriceIncVat;
 }
 
