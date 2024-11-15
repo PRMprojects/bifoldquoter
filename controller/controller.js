@@ -67,9 +67,9 @@ function testytest() {
     //}
 }
 var testtest = document.getElementById("testbutton2");
-testtest.addEventListener("click", (e) => {
-    testytest();
-})
+//testtest.addEventListener("click", (e) => {
+//    testytest();
+//})
 var previousTab = "";
 function switchTab(tabX) {
     const activePanelId = tabX.getAttribute('href');
@@ -227,13 +227,23 @@ glazingcontinue.addEventListener("click", (e) => {
     const nextPanel = tabsContainer.querySelector("#frame-options")
     nextPanel.removeAttribute("hidden");
 })
+
+
+
+
+
+
+
+
+
+
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
 var setwidth = 5000;
 var setheight = 2100;
 
-returnedwidth.textContent = setwidth;       //test expression
-returnedheight.textContent = setheight;     //test expression
+returnedwidth.textContent = setwidth;       
+returnedheight.textContent = setheight;     
 
 
 
@@ -245,7 +255,7 @@ function setHeight(x) {
     setheight = x;
     returnedheight.textContent = setheight;
 };
-var width = 5000;               //      ------- Initialised here
+var width = 5000;              
 var height = 2100;
 sizestyleinput.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -285,7 +295,6 @@ function availableLeavesCalc () {
 }
 availableLeavesCalc();
 
-
 var lbuttons = ["BF2", "BF3", "BF4", "BF5", "BF6"];
 function showLeafButtons () {
     leafButtons.forEach((button) => {
@@ -297,17 +306,14 @@ function showLeafButtons () {
         document.getElementById(lbuttons[Number(astyles[i]-2)]).classList.remove("fadedButton");
     }
 }
-
-
 showLeafButtons();
 var bfconfig = 505;
-var bfstyle = 5; //initalised for test with 5
+var bfstyle = 5;
 function logBfLeaves (x) {
     var bfl = Number(x);
     bfstyle = bfl;
     return bfl;
 }
-//logBfLeaves(bfstyle);
 BF2.addEventListener("click", (event) => {
     bfstyle = 2;
     leafbuttontest.textContent = bfstyle;
@@ -316,7 +322,7 @@ BF2.addEventListener("click", (event) => {
     noleavesguidemin.textContent = bfstyle;
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
-    getPricing();
+    BASEcoster();
 })
 BF3.addEventListener("click", (event) => {
     bfstyle = 3;
@@ -326,7 +332,7 @@ BF3.addEventListener("click", (event) => {
     noleavesguidemin.textContent = bfstyle;
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
-    getPricing();
+    BASEcoster();
 })
 BF4.addEventListener("click", (event) => {
     bfstyle = 4;
@@ -336,7 +342,7 @@ BF4.addEventListener("click", (event) => {
     noleavesguidemin.textContent = bfstyle;
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
-    getPricing();
+    BASEcoster();
 })
 BF5.addEventListener("click", (event) => {
     bfstyle = 5;
@@ -346,7 +352,7 @@ BF5.addEventListener("click", (event) => {
     noleavesguidemin.textContent = bfstyle;
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
-    getPricing();
+    BASEcoster();
 })
 BF6.addEventListener("click", (event) => {
     bfstyle = 6;
@@ -356,7 +362,7 @@ BF6.addEventListener("click", (event) => {
     noleavesguidemin.textContent = bfstyle;
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
-    getPricing();
+    BASEcoster();
 })
 function addStyleButtonsTwoLeaf () {
     const button1 = createStyleButton('220','style-220');
@@ -448,8 +454,16 @@ availableStyleButtons.addEventListener("click", (event) => {
         console.log("bfconfig: ", bfconfig);
         
 });
-//    }
-//);
+
+
+
+
+
+
+
+
+
+
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   COLOUR OPTIONS
@@ -462,11 +476,13 @@ regcoloptionsexternal.addEventListener("click", (event) => {
     colexternal = event.target.id;
     console.log("selectedColour: ", colexternal);
     colourSelected();
+    COLScoster();
 })
 regcoloptionsinternal.addEventListener("click", (event) => {
     colinternal = event.target.id;
     console.log("selectedColour: ", colinternal);
     colourSelected();
+    COLScoster();
 })
 function colourSelected() {
     if (colexternal) {
@@ -476,6 +492,20 @@ function colourSelected() {
         colinternal = colinternal.replace('button-', '').replace('-internal', '');
     }
 }
+function COLScoster() {
+    if (colexternal === "RAL" || colinternal === "RAL") {
+        COLScoster();
+    }
+}
+
+
+
+
+
+
+
+
+
 
 //|   |   |   |   |   |   |   |   |   |   |   |   HARDWARE OPTIONS
 var Leverval = "Black";
@@ -528,14 +558,28 @@ sboltOptions.addEventListener("click", (event) => {
     }
 })
 
+function LEVERcounter() {
+    if (bfconfig) {
+        let [first, second] = [parseInt(bfconfig[1]), parseInt(bfconfig[2])];
+        levercount = first;
+        if ((first % 2 === 0 && second % 2 === 0) || 
+            ((first === 0 || second === 0) && (first % 2 === 0 || second % 2 === 0))) {
+            LEVERcoster();
+        }
+    }
+}
 
 
 
-// Get all S-bolt buttons
+
+
+
+
+
+
+
 const sboltButtons = document.querySelectorAll('#sbblack, #sbwhite, #sbchrome, #sbcolmatch');
 
-// Add click event listener to each button
-//var sboltSelected = document.getElementById('sbolt-buttons');
 sboltButtons.forEach(button => {
     button.addEventListener('click', function() {
         sboltButtons.forEach(btn => btn.classList.remove('s-bolt-selected'));
@@ -545,6 +589,11 @@ sboltButtons.forEach(button => {
         const selectedSbolt = this.id.replace('sb', ''); // removes 'sb' prefix to get color
     });
 });
+
+
+
+
+
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   THRESHOLD OPTIONS
@@ -560,7 +609,12 @@ THRESHOLDSELECT.addEventListener("change", (event) => {
     CILLSELECT.innerHTML = options.map(opt => 
         `<option value="${opt}"${opt === '150mm' ? ' selected' : ''}>${opt}</option>`
     ).join('');
+    THcoster();
     //AI gen need to understand this
+})
+CILLSELECT.addEventListener("change", (event) => {
+    CILLval = CILLSELECT.value;
+    CILLcoster();
 })
 //|   |   |   |   |   |   |   |   |   |   |   |   GLAZING OPTIONS
 var Glassval = "Clear 1.4";
@@ -637,10 +691,6 @@ FE20SELECT.addEventListener("change", (event) => {
     console.log("FE20val: ", FE20val);
     FE20coster();
 })
-CILLSELECT.addEventListener("change", (event) => {
-    CILLval = CILLSELECT.value;
-    CILLcoster();
-})
 //fOptTV.addEventListener('change', (event) => {
 //    var selectedOption = fOptTV.options[fOptTV.selectedIndex].text;
 //    document.getElementById('fOptTest').textContent = selectedOption;
@@ -667,6 +717,7 @@ const divElement = document.getElementById('available-style-buttons');
 
 //|   |   |   |   |   |   |   |   |   |   |   |   PRICING
 var plp = 590;
+
 var totalpriceexvat = 0;
 var formattedTotalPriceExVat = "";
 var formattedTotalPriceIncVat = "";
@@ -675,20 +726,40 @@ var formattedTotalPriceVatValue = "";
 const TVcost = 12;
 const FE42cost = 20;
 const CILLcost = 10;
+const CILL70cost = 5;
+const CILL85cost = 5;
+const CILL135cost = 0;
+const CILL150cost = 0;
+const CILL190cost = 5;
 const FE20cost = 15;
+const plRALul = 120; //RAL uplift price
+const THlow20cost = 15;
+const THlow30cost = 15;
+const THstandardcost = 0;
+const THintegratedcost = 20;
  
-var baseprice = 0;
+var sprice = 0;
+var BASEprice = 0;
+var COLSprice = 0; //only costs for RAL uplift
+var FE42price = 0;
 var FE20price = 0;
 var CILLprice = 0;
-var FE42price = 0;
+var THprice = 0;
 var TVPrice = 0;
-//var TVYN;
-//TVYES.addEventListener("click", (event) => {
-//    TVYN = "yes";
-//})
-//TVNO.addEventListener("click", (event) => {
-//    TVYN = "no";
-//})
+var LEVERprice = 0;
+var SBOLTprice = 0;
+var DHANDLEprice = 0;
+var HINGEprice = 0;
+var GLASSprice = 0;
+BASEcoster();
+function BASEcoster() {
+    BASEprice = plp * bfstyle;
+    getPricing();
+}
+function COLScoster() {
+    COLSprice = plRALul * bfstyle;
+    getPricing();
+}
 function TVcoster() {
     TVPrice = TVs * TVcost;
     getPricing();
@@ -755,27 +826,52 @@ function FE20coster() {
 function CILLcoster() {
     switch(CILLval) {
         case "None":
-            CILLprice = setwidth/1000 * (CILLcost * 1 * -1);
+            CILLprice = setwidth/1000 * (CILLcost * -1);
+            break;
+        case "70mm (Flush)":
+            CILLprice = setwidth/1000 * CILL70cost;
             break;
         case "85mm Stub":
-            CILLprice = setwidth/1000 * (CILLcost * 1 * -0.5);
+            CILLprice = setwidth/1000 * CILL85cost;
             break;
         case "135mm":
-            CILLprice = setwidth/1000 * (CILLcost * 0);
+            CILLprice = setwidth/1000 * CILL135cost;
             break;
         case "150mm":
-            CILLprice = setwidth/1000 * (CILLcost * 0);
+            CILLprice = setwidth/1000 * CILL150cost;
             break;
         case "190mm":
-            CILLprice = setwidth/1000 * (CILLcost * 0.5);
+            CILLprice = setwidth/1000 * CILL190cost;
             break;
     }
     getPricing();
 }
+function THcoster() {
+    switch(THval) {
+        case "Low20":
+            THprice = setwidth/1000 * THlow20cost;
+            break;
+        case "Low30":
+            THprice = setwidth/1000 * THlow30cost;
+            break;
+        case "Standard":
+            THprice = setwidth/1000 * THstandardcost;
+            break;
+        case "Integrated":
+            THprice = setwidth/1000 * THintegratedcost;
+            break;
+    }
+    getPricing();
+}
+function LEVERcoster() {
+    LEVERprice = levercount * (LEVERcost + (Leverval === "colmatch" ? 10 : 0));
+    getPricing();
+}
 function getPricing() {
-    totalpriceexvat = 0;
-    baseprice = plp * bfstyle;    
-    totalpriceexvat += ( baseprice + FE42price + FE20price + CILLprice + TVPrice);
+    totalpriceexvat = 0;   
+    totalpriceexvat += ( BASEprice + COLSprice + FE42price + FE20price + CILLprice + THprice + TVPrice
+        + LEVERprice + SBOLTprice + DHANDLEprice + HINGEprice + GLASSprice
+    );
 
     formattedTotalPriceExVat = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -794,6 +890,12 @@ function getPricing() {
     document.getElementById("price-panel-exvat").textContent = formattedTotalPriceExVat;
     document.getElementById("price-panel-exvat-value").textContent = formattedTotalPriceVatValue;
     document.getElementById("price-panel-incvat").textContent = formattedTotalPriceIncVat;
+}
+function formatGBP(number) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency', 
+        currency: 'GBP'
+    }).format(number);
 }
 
 getPricing();
@@ -964,7 +1066,7 @@ leafbuttonsid.addEventListener("click", (event) => {
     addStyleButtons();
     convertWidthToPixel(width);
     convertHeightToPixel(height);
-    draw("#canvas-outview");
+    draw("canvas-outview");
 });
 convertWidthToPixel(width);
 convertHeightToPixel(height);

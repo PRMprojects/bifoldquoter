@@ -1,0 +1,283 @@
+{
+  "items": [
+    {
+      "uniqueCode": "202regs0bwbwbwbw",
+      "originalCode": "202",
+      "label": "regs",
+      "position": "0",
+      "repetitions": [
+        "bw",
+        "bw",
+        "bw",
+        "bw"
+      ],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "220rals1chchchch",
+      "originalCode": "220",
+      "label": "rals",
+      "position": "1",
+      "repetitions": [
+        "ch",
+        "ch",
+        "ch",
+        "ch"
+      ],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "211rald2rararara",
+      "originalCode": "211",
+      "label": "rald",
+      "position": "2",
+      "repetitions": [
+        "ra",
+        "ra",
+        "ra",
+        "ra"
+      ],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "3032ntvxlqerznyp",
+      "originalCode": "303",
+      "label": "",
+      "position": "2",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "330afc397nucod4k",
+      "originalCode": "330",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "312lswz4eqahkl1j",
+      "originalCode": "312",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "321omihovzfe5l6x",
+      "originalCode": "321",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "404a7hlggkz36dgd",
+      "originalCode": "404",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "440nooiwk5t2ri6n",
+      "originalCode": "440",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "42223yx5jkdrdhay",
+      "originalCode": "422",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "413tl54v1culzfg4",
+      "originalCode": "413",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "4316oembkp9277jj",
+      "originalCode": "431",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "50526urzwpr2jrja",
+      "originalCode": "505",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "550lf1ctiosy3r1n",
+      "originalCode": "550",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "523js8y4z8b0yh2e",
+      "originalCode": "523",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "532vsewx7rkcs48v",
+      "originalCode": "532",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "514rdohn8v8uh5xx",
+      "originalCode": "514",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "541lp2alc3ba5owy",
+      "originalCode": "541",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "606wsk2rvg0bdqsg",
+      "originalCode": "606",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "660lougj2ju8ioht",
+      "originalCode": "660",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "633i2tcgf4a5henf",
+      "originalCode": "633",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "624d16fphco82i8z",
+      "originalCode": "624",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "643dn6ls12o9dcd8",
+      "originalCode": "643",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "615k77oxdc3j8fcy",
+      "originalCode": "615",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "651wdl7dm57l0c7o",
+      "originalCode": "651",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "707wli3l2v4j5c96",
+      "originalCode": "707",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "7708vclpre8cbdhi",
+      "originalCode": "770",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "734svtk1oqorj8b1",
+      "originalCode": "734",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "743idrab7y9veai9",
+      "originalCode": "743",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "7253anx9raydhkqh",
+      "originalCode": "725",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "752ejl3askuj0qmf",
+      "originalCode": "752",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "716yvvv5w7wi2tws",
+      "originalCode": "716",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    },
+    {
+      "uniqueCode": "761riuwjwc7s2c8k",
+      "originalCode": "761",
+      "label": "",
+      "position": "",
+      "repetitions": [],
+      "price": 1234
+    }
+  ]
+}

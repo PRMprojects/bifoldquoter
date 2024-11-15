@@ -9,7 +9,7 @@
     </head>
     <body>
         <button type="button" id="testbutton">run console log</button>
-        <button type="button" id="testbutton2">run sample</button>
+        <!--<button type="button" id="testbutton2">run sample</button>-->
         <div class="tab-pane" id="main-tab-pane">            
             <ul aria-labelledby="tabs-title" class="tab-list">
                 <!--<li><a id="tab-1" href="#service"> Service </a></li>-->
@@ -178,17 +178,17 @@
                         </div>
                     </div>
                     <div id="threshold" aria-labelledby="tab-5" hidden="true"><p>Threshold Options</p>
-                        <label>Threshold Options:</label>
+                        <label>Threshold Options:</label><br>
                             <select id="THRESHOLDSELECT">
-                                <option value="Low20">Low 20mm DV173</option>
-                                <option value="Low30">Low 30mm DV175</option>
+                                <option value="Low20">Low 20mm</option>
+                                <option value="Low30">Low 30mm</option>
                                 <option value="Standard" selected>Standard Frame</option>
-                                <option value="Integrated">DV176 Integrated</option>
-                            </select>
-                        <label>Cill Options:</label>
+                                <option value="Integrated">Integrated Cill/Threshold</option>
+                            </select><br>
+                        <label>Cill Options:</label><br>
                             <select id="CILLSELECT">
                                 <option value="None">None</option>
-                                <option value="Flush Drainage">Flush Drainage</option>
+                                <option value="70mm (Flush)">70mm (Flush)</option>
                                 <option value="85mm Stub">85mm Stub</option>
                                 <option value="135mm">135mm</option>
                                 <option value="150mm" selected>150mm</option>
