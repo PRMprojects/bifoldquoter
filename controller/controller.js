@@ -452,7 +452,9 @@ availableStyleButtons.addEventListener("click", (event) => {
         bfconfig = event.target.id;
         bfconfig = bfconfig.replace('style-', '');
         console.log("bfconfig: ", bfconfig);
-        
+        LEVERcoster();
+        SBOLTcoster();
+        DHANDLEcoster();
 });
 
 
@@ -557,18 +559,51 @@ sboltOptions.addEventListener("click", (event) => {
             break;
     }
 })
-
+var levercount = 0;
 function LEVERcounter() {
     if (bfconfig) {
-        let [first, second] = [parseInt(bfconfig[1]), parseInt(bfconfig[2])];
-        levercount = first;
-        if ((first % 2 === 0 && second % 2 === 0) || 
-            ((first === 0 || second === 0) && (first % 2 === 0 || second % 2 === 0))) {
-            LEVERcoster();
+        let [second, third] = [parseInt(bfconfig[1]), parseInt(bfconfig[2])];
+        second += 2;
+        third += 2;
+        if (second % 2 === 0 && third % 2 === 0) {
+            levercount = 0;
+        } else if ((second % 2 !== 0 && third % 2 === 0) || (second % 2 === 0 && third % 2 !== 0)) {
+            levercount = 1;
+        } else if (second % 2 !== 0 && third % 2 !== 0) {
+            levercount = 2;
         }
     }
 }
+var sboltcount = 0;
+function SBOLTcounter() {
+    if (bfconfig) {
+        let [second, third] = [parseInt(bfconfig[1]), parseInt(bfconfig[2])];
+        if (second > 0) {
+            let secondEven = second - (second % 2);
+            sboltcount += secondEven / 2;
+        }
+        if (third > 0) {
+            let thirdEven = third - (third % 2);
+            sboltcount += thirdEven / 2;
+        }
 
+    }
+}
+var dhandlecount = 0;
+function DHANDLEcounter() {
+    if (bfconfig) {
+        let [second, third] = [parseInt(bfconfig[1]), parseInt(bfconfig[2])];
+        if (second > 0) {
+            let secondEven = second - (second % 2);
+            dhandlecount += secondEven / 2;
+        }
+        if (third > 0) {
+            let thirdEven = third - (third % 2);
+            dhandlecount += thirdEven / 2;
+        }
+
+    }
+}
 
 
 
@@ -737,6 +772,16 @@ const THlow20cost = 15;
 const THlow30cost = 15;
 const THstandardcost = 0;
 const THintegratedcost = 20;
+const LEVERcost = 10;
+const LEVERralul = 10;
+const SBOLTcost = 10;
+const SBOLTralul = 10;
+const DHANDLEcost = 10;
+const DHANDLEralul = 10;
+const HINGEcost = 10;
+const HINGEralul = 10;
+
+
  
 var sprice = 0;
 var BASEprice = 0;
@@ -864,10 +909,33 @@ function THcoster() {
     getPricing();
 }
 function LEVERcoster() {
-    LEVERprice = levercount * (LEVERcost + (Leverval === "colmatch" ? 10 : 0));
+    LEVERcounter();
+    console.log("levercount: ", levercount);
+    LEVERprice = levercount * (LEVERcost + (Leverval === "colmatch" ? LEVERralul : 0));
     getPricing();
+    console.log("LEVERprice: ", LEVERprice);
+    levercount = 0;
 }
-function getPricing() {
+function SBOLTcoster() {
+    SBOLTcounter();
+    console.log("sboltcount: ", sboltcount);
+    SBOLTprice = sboltcount * (SBOLTcost + (Sboltval === "colmatch" ? SBOLTralul : 0));
+    getPricing();
+    console.log("SBOLTprice: ", SBOLTprice);
+    sboltcount = 0;
+}
+function DHANDLEcoster() {
+    DHANDLEcounter();
+    console.log("dhandlecount: ", dhandlecount);
+    DHANDLEprice = dhandlecount * (DHANDLEcost + (Dhandleval === "colmatch" ? DHANDLEralul : 0));
+    getPricing();
+    console.log("DHANDLEprice: ", DHANDLEprice);
+    dhandlecount = 0;
+}
+
+
+
+function getPricing() { //adds all prices together and formats that price
     totalpriceexvat = 0;   
     totalpriceexvat += ( BASEprice + COLSprice + FE42price + FE20price + CILLprice + THprice + TVPrice
         + LEVERprice + SBOLTprice + DHANDLEprice + HINGEprice + GLASSprice
