@@ -31,7 +31,7 @@ function paneViewerShow (pane) {
 tabPanels[0].removeAttribute("hidden", true); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
-    const clickedTab = e.target.closest("a");
+    const clickedTab = e.target.closest("a"); //weird bit of data validation?
     if (!clickedTab) return;
     e.preventDefault();
 
@@ -57,19 +57,17 @@ let mainViewPaneEl = [];
 //}
 
 function testytest() {
+    
     //const activePanelId = tabX.getAttribute('href');
     //const activePanel = tabsContainer.querySelector(activePanelId);
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    });
     //if (activePanel) {
     //    activePanel.removeAttribute("hidden");
     //}
 }
 var testtest = document.getElementById("testbutton2");
-//testtest.addEventListener("click", (e) => {
-//    testytest();
-//})
+testtest.addEventListener("click", (e) => {
+    testytest();
+})
 var previousTab = "";
 function switchTab(tabX) {
     const activePanelId = tabX.getAttribute('href');
@@ -240,20 +238,17 @@ glazingcontinue.addEventListener("click", (e) => {
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
 var setwidth = 5000;
-var setheight = 2100;
-
-returnedwidth.textContent = setwidth;       
-returnedheight.textContent = setheight;     
+var setheight = 2100;  
 
 
 
 function setWidth(x) {
     setwidth = x;
-    returnedwidth.textContent = setwidth;
+    //returnedwidth.textContent = setwidth;
 };
 function setHeight(x) {
     setheight = x;
-    returnedheight.textContent = setheight;
+    //returnedheight.textContent = setheight;
 };
 var width = 5000;              
 var height = 2100;
@@ -291,7 +286,7 @@ function availableLeavesCalc () {
             i++;
         };
     }
-    leafnotest.textContent = astyles;
+    //leafnotest.textContent = astyles;
 }
 availableLeavesCalc();
 
@@ -316,7 +311,7 @@ function logBfLeaves (x) {
 }
 BF2.addEventListener("click", (event) => {
     bfstyle = 2;
-    leafbuttontest.textContent = bfstyle;
+    //leafbuttontest.textContent = bfstyle;
     noleavesguidemax.textContent = bfstyle;
     maxwidthguidemax.textContent = bfstyle * 1200;
     noleavesguidemin.textContent = bfstyle;
@@ -326,7 +321,7 @@ BF2.addEventListener("click", (event) => {
 })
 BF3.addEventListener("click", (event) => {
     bfstyle = 3;
-    leafbuttontest.textContent = bfstyle;
+    //leafbuttontest.textContent = bfstyle;
     noleavesguidemax.textContent = bfstyle;
     maxwidthguidemax.textContent = bfstyle * 1200;
     noleavesguidemin.textContent = bfstyle;
@@ -336,7 +331,7 @@ BF3.addEventListener("click", (event) => {
 })
 BF4.addEventListener("click", (event) => {
     bfstyle = 4;
-    leafbuttontest.textContent = bfstyle;
+    //leafbuttontest.textContent = bfstyle;
     noleavesguidemax.textContent = bfstyle;
     maxwidthguidemax.textContent = bfstyle * 1200;
     noleavesguidemin.textContent = bfstyle;
@@ -346,7 +341,7 @@ BF4.addEventListener("click", (event) => {
 })
 BF5.addEventListener("click", (event) => {
     bfstyle = 5;
-    leafbuttontest.textContent = bfstyle;
+    //leafbuttontest.textContent = bfstyle;
     noleavesguidemax.textContent = bfstyle;
     maxwidthguidemax.textContent = bfstyle * 1200;
     noleavesguidemin.textContent = bfstyle;
@@ -356,7 +351,7 @@ BF5.addEventListener("click", (event) => {
 })
 BF6.addEventListener("click", (event) => {
     bfstyle = 6;
-    leafbuttontest.textContent = bfstyle;
+    //leafbuttontest.textContent = bfstyle;
     noleavesguidemax.textContent = bfstyle;
     maxwidthguidemax.textContent = bfstyle * 1200;
     noleavesguidemin.textContent = bfstyle;
@@ -448,13 +443,17 @@ function addStyleButtons () {
 };
 var availableStyleButtons = document.getElementById("available-style-buttons");
 availableStyleButtons.addEventListener("click", (event) => {
-    //if (event && event.target && event.target.id) {
+    if (event.target.tagName !== 'BUTTON') return;
+
+    if (event.target.matches('button')) {
         bfconfig = event.target.id;
         bfconfig = bfconfig.replace('style-', '');
         console.log("bfconfig: ", bfconfig);
         LEVERcoster();
         SBOLTcoster();
         DHANDLEcoster();
+        GLASScoster();
+    }
 });
 
 
@@ -658,6 +657,49 @@ GLAZINGSELECT.addEventListener("change", (event) => {
     
 })
 
+const glassConfigs = { //missing: 211,624,642,725,752
+    '202': 142,
+    '220': 142,
+    '303': 110,
+    '330': 110,
+    '312': 156,
+    '321': 156,
+    '404': 164,
+    '440': 164,
+    '422': 210,
+    '413': 128,
+    '431': 128,
+    '505': 133,
+    '550': 133,
+    '523': 178,
+    '532': 178,
+    '514': 178,
+    '541': 178,
+    '606': 186,
+    '660': 186,
+    '633': 150,
+    '615': 150,
+    '651': 150,
+    '707': 154,
+    '770': 154,
+    '734': 200,
+    '743': 200,
+    '716': 200,
+    '761': 200
+};
+const glassheightded = 206;
+var glasswidth = 0;
+var glassheight = 0;
+var glassarea = glasswidth * glassheight / 1000000;
+function GLASSsizer () {
+    glasswidth = (setwidth - glassConfigs[bfconfig]) /bfstyle;
+    glassheight = (setheight - glassheightded);
+}
+function GLASSclearer() {
+    glasswidth = 0;
+    glassheight = 0;
+}
+
 //|   |   |   |   |   |   |   |   |   |   |   |   FRAME OPTIONS
 var fOptTV = document.getElementById('TVSELECT');
 var fOpt42 = document.getElementById('FE42SELECT');
@@ -772,14 +814,19 @@ const THlow20cost = 15;
 const THlow30cost = 15;
 const THstandardcost = 0;
 const THintegratedcost = 20;
-const LEVERcost = 10;
+const LEVERcost = 0;
 const LEVERralul = 10;
-const SBOLTcost = 10;
+const SBOLTcost = 0;
 const SBOLTralul = 10;
-const DHANDLEcost = 10;
+const DHANDLEcost = 0;
 const DHANDLEralul = 10;
-const HINGEcost = 10;
+const HINGEcost = 0;
 const HINGEralul = 10;
+const GLASScostunglazed = -44;
+const GLASScostclear1p4 = 10;
+const GLASScostclear1p5 = 0;
+const GLASScosttriple = 55;
+const GLASScostobscure = 20;
 
 
  
@@ -892,6 +939,7 @@ function CILLcoster() {
     getPricing();
 }
 function THcoster() {
+    console.log("THcoster starting");
     switch(THval) {
         case "Low20":
             THprice = setwidth/1000 * THlow20cost;
@@ -909,6 +957,7 @@ function THcoster() {
     getPricing();
 }
 function LEVERcoster() {
+    console.log("LEVERcoster starting");
     LEVERcounter();
     console.log("levercount: ", levercount);
     LEVERprice = levercount * (LEVERcost + (Leverval === "colmatch" ? LEVERralul : 0));
@@ -917,6 +966,7 @@ function LEVERcoster() {
     levercount = 0;
 }
 function SBOLTcoster() {
+    console.log("SBOLTcoster starting");
     SBOLTcounter();
     console.log("sboltcount: ", sboltcount);
     SBOLTprice = sboltcount * (SBOLTcost + (Sboltval === "colmatch" ? SBOLTralul : 0));
@@ -925,12 +975,36 @@ function SBOLTcoster() {
     sboltcount = 0;
 }
 function DHANDLEcoster() {
+    console.log("DHANDLEcoster starting");
     DHANDLEcounter();
     console.log("dhandlecount: ", dhandlecount);
     DHANDLEprice = dhandlecount * (DHANDLEcost + (Dhandleval === "colmatch" ? DHANDLEralul : 0));
     getPricing();
     console.log("DHANDLEprice: ", DHANDLEprice);
     dhandlecount = 0;
+}
+function GLASScoster() {
+    console.log("GLASScoster starting");
+    GLASSsizer();
+    switch(Glassval) {
+        case "Unglazed  ":
+            GLASSprice = glassarea * GLASScostunglazed;
+            break;
+        case "Clear1.4":
+            GLASSprice = glassarea * GLASScostclear1p4;
+            break;
+        case "Clear1.5":
+            GLASSprice = glassarea * GLASScostclear1p5;
+            break;
+        case "Triple":
+            GLASSprice = glassarea * GLASScosttriple;
+            break;
+        case "Obscure":
+            GLASSprice = glassarea * GLASScostobscure;
+            break;
+    }
+    console.log("GLASSprice: ", GLASSprice);
+    getPricing();
 }
 
 
@@ -940,6 +1014,21 @@ function getPricing() { //adds all prices together and formats that price
     totalpriceexvat += ( BASEprice + COLSprice + FE42price + FE20price + CILLprice + THprice + TVPrice
         + LEVERprice + SBOLTprice + DHANDLEprice + HINGEprice + GLASSprice
     );
+    console.log("___+___PRICES___+___")
+    console.log("suck a bfconfig:", bfconfig);
+    console.log("Base price: ", BASEprice);
+    console.log("COLSprice: ", COLSprice);
+    console.log("FE42price: ", FE42price);
+    console.log("FE20price: ", FE20price);
+    console.log("CILLprice: ", CILLprice);
+    console.log("THprice: ", THprice);
+    console.log("TVPrice: ", TVPrice);
+    console.log("LEVERprice: ", LEVERprice);
+    console.log("SBOLTprice: ", SBOLTprice);
+    console.log("DHANDLEprice: ", DHANDLEprice);
+    console.log("HINGEprice: ", HINGEprice);
+    console.log("GLASSprice: ", GLASSprice);
+    console.log("totalpriceexvat: ", totalpriceexvat);
 
     formattedTotalPriceExVat = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -965,8 +1054,6 @@ function formatGBP(number) {
         currency: 'GBP'
     }).format(number);
 }
-
-getPricing();
 
 //|   |   |   |   |   |   |   |   |   |   |   |   DRAWING
 //of = 6.24; //52*conv
@@ -1143,45 +1230,8 @@ draw("canvas-outview"); //
 
 //|   |   |   |   |   |   |   |   |   |   |   |   VARIABLE STORAGE AND ENCODE/DECODE
 testbutton.addEventListener("click", (event) => {
-    runSample();
+    runConsoleLog();
 })
-function runSample () {
-    let quoteSummaryCode = [];
-    console.log("_____________value log_______________");
-    console.log("setwidth: ", setwidth);      
-    quoteSummaryCode.push(setheight);
-    console.log("setheight: ", setheight);
-    quoteSummaryCode.push(bfstyle);
-    console.log("bfstyle: ", bfstyle);
-    quoteSummaryCode.push(bfconfig);
-    console.log("bfconfig: ", bfconfig);
-    quoteSummaryCode.push(colexternal);
-    console.log("colexternal: ", colexternal);
-    quoteSummaryCode.push(colinternal);
-    console.log("colinternal: ", colinternal);
-    quoteSummaryCode.push(TVs);
-    console.log("TVs: ", TVs);
-    quoteSummaryCode.push(TVloc);
-    console.log("TVloc: ", TVloc);
-    quoteSummaryCode.push(FE42val);
-    console.log("FE42val: ", FE42val);
-    quoteSummaryCode.push(FE20val);
-    console.log("FE20val: ", FE20val);
-    quoteSummaryCode.push(THval);
-    console.log("THval: ", THval);
-    quoteSummaryCode.push(CILLval);
-    console.log("CILLval: ", CILLval);
-    quoteSummaryCode.push(Leverval);
-    console.log("Leverval: ", Leverval);
-    quoteSummaryCode.push(Sboltval);
-    console.log("Sboltval: ", Sboltval);
-    quoteSummaryCode.push(Dhandleval);
-    console.log("Dhandleval: ", Dhandleval);
-    quoteSummaryCode.push(Hingeval);
-    console.log("Hingeval: ", Hingeval);
-    quoteSummaryCode.push(Glassval);
-    console.log("Glassval: ", Glassval);
-}
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   PRODUCE NEW TABLE FOR QUOTE SUM
@@ -1212,32 +1262,37 @@ function quoteSummaryElements () {
       // Subheading: Size & Style
       { attribute: "Size & Style", isSubheading: true },
       { attribute: "Size", description: setwidth + "mm" + " x " + setheight + "mm", price: "" },
-      { attribute: "Style", description: bfconfig + " - " + bfstyle + " leaves", price: "" },
+      { attribute: "Style", description: bfconfig + " - " + bfstyle + " leaves", price: formatGBP(BASEprice) },
 
       { attribute: "Colour", isSubheading: true },
       { attribute: "Colour External", description: colexternal, price: "" },
-      { attribute: "Colour Internal", description: colinternal, price: "" },
+      { attribute: "Colour Internal", description: colinternal, price: formatGBP(COLSprice) },
 
       { attribute: "Trickle Vents", isSubheading: true },
-      { attribute: "No Of Vents", description: TVs, price: "" },
+      { attribute: "No Of Vents", description: TVs, price: formatGBP(THprice) },
       { attribute: "Vent Location", description: TVloc, price: "" },
 
       { attribute: "Frame Add-Ons", isSubheading: true },
-      { attribute: "42mm Add-Ons", description: FE42val, price: "" },
-      { attribute: "20mm Add-Ons", description: FE20val, price: "" },      
+      { attribute: "42mm Add-Ons", description: FE42val, price: formatGBP(FE42price) },
+      { attribute: "20mm Add-Ons", description: FE20val, price: formatGBP(FE20price) },      
 
       { attribute: "Threshold & Cill", isSubheading: true },
-      { attribute: "Cill Depth", description: CILLval, price: "" },      
-      { attribute: "Threshold", description: THval, price: "" },      
+      { attribute: "Cill Depth", description: CILLval, price: formatGBP(CILLprice) },      
+      { attribute: "Threshold", description: THval, price: formatGBP(THprice) },      
 
       { attribute: "Hardware", isSubheading: true },
-      { attribute: "Lever Handle", description: Leverval, price: "" },      
-      { attribute: "S-Bolt", description: Sboltval, price: "" },      
-      { attribute: "D-Handle", description: Dhandleval, price: "" },      
-      { attribute: "Hinges", description: Hingeval, price: "" },      
+      { attribute: "Lever Handle", description: Leverval, price: formatGBP(LEVERprice) },      
+      { attribute: "S-Bolt", description: Sboltval, price: formatGBP(SBOLTprice) },      
+      { attribute: "D-Handle", description: Dhandleval, price: formatGBP(DHANDLEprice) },      
+      { attribute: "Hinges", description: Hingeval, price: formatGBP(HINGEprice) },      
 
       { attribute: "Glazing", isSubheading: true },
-      { attribute: "Glass Option", description: Glassval, price: "" },      
+      { attribute: "Glass Option", description: Glassval, price: formatGBP(GLASSprice) },
+
+      { attribute: "Total Price", isSubheading: true },
+      { attribute: "", description: "Ex. VAT", price: formattedTotalPriceExVat, style: { textAlign: "right" } },
+      { attribute: "", description: "VAT Value", price: formattedTotalPriceVatValue, style: { textAlign: "right" } }, 
+      { attribute: "", description: "Inc. VAT", price: formattedTotalPriceIncVat, style: { textAlign: "right" } },
     ];
 
     // Create the header row
@@ -1297,5 +1352,50 @@ function quoteSummaryElements () {
     });
 
     table.appendChild(tbody);
+}
+
+
+
+
+function runConsoleLog () {
+    let quoteSummaryCode = [];
+    console.log("_____________value log_______________");
+    console.log("setwidth: ", setwidth);      
+    quoteSummaryCode.push(setheight);
+    console.log("setheight: ", setheight);
+    quoteSummaryCode.push(bfstyle);
+    console.log("bfstyle: ", bfstyle);
+    quoteSummaryCode.push(bfconfig);
+    console.log("bfconfig: ", bfconfig);
+    quoteSummaryCode.push(colexternal);
+    console.log("colexternal: ", colexternal);
+    quoteSummaryCode.push(colinternal);
+    console.log("colinternal: ", colinternal);
+    quoteSummaryCode.push(TVs);
+    console.log("TVs: ", TVs);
+    quoteSummaryCode.push(TVloc);
+    console.log("TVloc: ", TVloc);
+    quoteSummaryCode.push(FE42val);
+    console.log("FE42val: ", FE42val);
+    quoteSummaryCode.push(FE20val);
+    console.log("FE20val: ", FE20val);
+    quoteSummaryCode.push(THval);
+    console.log("THval: ", THval);
+    quoteSummaryCode.push(CILLval);
+    console.log("CILLval: ", CILLval);
+    quoteSummaryCode.push(Leverval);
+    console.log("Leverval: ", Leverval);
+    quoteSummaryCode.push(Sboltval);
+    console.log("Sboltval: ", Sboltval);
+    quoteSummaryCode.push(Dhandleval);
+    console.log("Dhandleval: ", Dhandleval);
+    quoteSummaryCode.push(Hingeval);
+    console.log("Hingeval: ", Hingeval);
+    quoteSummaryCode.push(Glassval);
+    console.log("Glassval: ", Glassval);
+}
+
+function runSample () {
+    ;
 }
 
