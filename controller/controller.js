@@ -27,8 +27,6 @@ function paneViewerShow (pane) {
     var paneViewer = document.getElementById(pane);
     paneViewer.classList.remove("pane-viewer");
 }
-//tabPanels[0].setAttribute("hidden", true);
-tabPanels[0].removeAttribute("hidden", true); //          ----TAB NUMBER INITIALISATION
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
     const clickedTab = e.target.closest("a"); //weird bit of data validation?
@@ -118,24 +116,8 @@ function restoreState() {
     });
 }
 saveState();
-function fieldsReset() {
-    setWidth(setwidth);
-    setHeight(setheight);
-    //availableLeavesCalc();
-    //showLeafButtons();
-    
-    draw("canvas-outview");
-}
 
 //|   |   |   |   |   |   |   |   |   |   |   |   BACK & CONTINUE BUTTONS
-//sizestyleback.addEventListener("click", (e) => {
-//    console.log(e.target);
-//    tabPanels.forEach((panel) => {
-//        panel.setAttribute("hidden", true);
-//    })
-//    const prevPanel = tabsContainer.querySelector("#service")
-//    prevPanel.removeAttribute("hidden");
-//})
 colourback.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
@@ -237,8 +219,8 @@ glazingcontinue.addEventListener("click", (e) => {
 
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
-var setwidth = 5000;
-var setheight = 2100;  
+var setwidth = 0;
+var setheight = 0;  
 
 
 
@@ -302,8 +284,8 @@ function showLeafButtons () {
     }
 }
 showLeafButtons();
-var bfconfig = 505;
-var bfstyle = 5;
+var bfconfig = 0;
+var bfstyle = 0;
 function logBfLeaves (x) {
     var bfl = Number(x);
     bfstyle = bfl;
@@ -518,24 +500,28 @@ leverOptions.addEventListener("click", (event) => {
     Leverval = event.target.id;
     Leverval = Leverval.replace('lh-', '');
     console.log("selectedLever: ", Leverval);
+    LEVERcoster();
 })
 const sboltOptions = document.getElementById('sbolt-options');
 sboltOptions.addEventListener("click", (event) => {
     Sboltval = event.target.id;
     Sboltval = Sboltval.replace('sb-', '');
     console.log("selectedSbolt: ", Sboltval);
+    SBOLTcoster();
 })
 const dhandleOptions = document.getElementById('dhandle-options');
 dhandleOptions.addEventListener("click", (event) => {
     Dhandleval = event.target.id;
     Dhandleval = Dhandleval.replace('dh-', '');
     console.log("selectedDhandle: ", Dhandleval);
+    DHANDLEcoster();
 })
 const hingeOptions = document.getElementById('hinge-options');
 hingeOptions.addEventListener("click", (event) => {
     Hingeval = event.target.id;
     Hingeval = Hingeval.replace('hinge-', '');
     console.log("selectedHinge: ", Hingeval);
+    HINGEcoster();
 })
 
 sboltOptions.addEventListener("click", (event) => {
@@ -631,21 +617,38 @@ sboltButtons.forEach(button => {
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   THRESHOLD OPTIONS
+const optinit = "150mm";
 var THval = "Standard Frame";
+var CILLval = "150mm";
+var CILLvalmem;
+var intticker = 0;
 THRESHOLDSELECT.addEventListener("change", (event) => {
+    if (THval === "Integrated") {
+        CILLvalmem = CILLval;
+        intticker += 1;
+    }
+    if (THval !== "Integrated" && intticker === 1) {
+        intticker -= 1;
+    }
     THval = THRESHOLDSELECT.value;
     const cillOptions = {
         integrated: ['None'],
-        standard: ['None', 'Flush Drainage', '85mm Stub', '135mm', '150mm', '190mm']
+        standard: ['None', '70mm (Flush)', '85mm Stub', '135mm', '150mm', '190mm']
     };
+    
     
     const options = THval === "Integrated" ? cillOptions.integrated : cillOptions.standard;
     CILLSELECT.innerHTML = options.map(opt => 
-        `<option value="${opt}"${opt === '150mm' ? ' selected' : ''}>${opt}</option>`
+        `<option value="${opt}"${opt === CILLvalmem ? ' selected' : ''}>${opt}</option>`
     ).join('');
+    if (THval !== "Integrated" && intticker === 1) {
+        CILLval = CILLvalmem;
+    }
+    
     THcoster();
     //AI gen need to understand this
 })
+
 CILLSELECT.addEventListener("change", (event) => {
     CILLval = CILLSELECT.value;
     CILLcoster();
@@ -654,10 +657,11 @@ CILLSELECT.addEventListener("change", (event) => {
 var Glassval = "Clear 1.4";
 GLAZINGSELECT.addEventListener("change", (event) => {
     Glassval = GLAZINGSELECT.value;
+    GLASScoster();
     
 })
 
-const glassConfigs = { //missing: 211,624,642,725,752
+const glasswidthded = { //missing: 211,624,642,725,752
     '202': 142,
     '220': 142,
     '303': 110,
@@ -690,10 +694,12 @@ const glassConfigs = { //missing: 211,624,642,725,752
 const glassheightded = 206;
 var glasswidth = 0;
 var glassheight = 0;
-var glassarea = glasswidth * glassheight / 1000000;
+var glassarea = 0;
 function GLASSsizer () {
-    glasswidth = (setwidth - glassConfigs[bfconfig]) /bfstyle;
+    glasswidth = (setwidth - glasswidthded[bfconfig]) /bfstyle;
     glassheight = (setheight - glassheightded);
+    glassarea = glasswidth * glassheight / 1000000;
+    console.log("glassarea: ", glassarea);
 }
 function GLASSclearer() {
     glasswidth = 0;
@@ -710,14 +716,37 @@ var TVs = 0;
 var TVloc = "None";
 var FE42val = "None";
 var FE20val = "None";
-var CILLval = "150mm";
+
+TVSELECT.addEventListener("change", (event) => {
+    var TVtemp = TVSELECT.value;
+    if (TVtemp === "None") {
+        TVs = 0;
+    } else {
+        TVs = TVSELECT.value;
+    }
+    const TVlocoptions = {
+        None: ['None'],
+        Req: ['None', 'Head', 'Sash']
+    };
+    const options = TVs === 0 ? TVlocoptions.None : TVlocoptions.Req;
+    TVHSSELECT.innerHTML = options.map(opt => 
+        `<option value="${opt}">${opt}</option>`
+    ).join('');
+    document.getElementById("TVHSSELECT").dispatchEvent(new Event('change'));
+
+
+    TVcoster();
+})
+var head42options = ['None', 'Head', 'Sides', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right'];
+var head20options = ['None', 'Head', 'Sides', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right'];
+
 TVHSSELECT.addEventListener("change", (event) => {
     TVloc = TVHSSELECT.value;
-    const TVlocoptions = {
+    const TVloc42options = {
         head: ['Head', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right'],
         sash: ['None', 'Head', 'Sides', 'Head-Sides', 'Head-Left', 'Head-Right', 'Left', 'Right']
     };
-    const options = TVloc === "Head" ? TVlocoptions.head : TVlocoptions.sash;
+    const options = TVloc === "Head" ? TVloc42options.head : TVloc42options.sash;
     FE42SELECT.innerHTML = options.map(opt => 
         `<option value="${opt}">${opt}</option>`
     ).join('');
@@ -738,16 +767,6 @@ TVHSSELECT.addEventListener("change", (event) => {
 
 console.log("TVloc: ", TVloc);
 
-TVSELECT.addEventListener("change", (event) => {
-    var TVtemp = TVSELECT.value;
-    if (TVtemp === "None") {
-        TVs = 0;
-    } else {
-        TVs = TVSELECT.value;
-    }
-    document.getElementById("fOptTest").textContent = TVs;
-    TVcoster();
-})
 FE42SELECT.addEventListener("change", (event) => {
     var FE42temp = FE42SELECT.value;
     if (FE42temp === "None") {
@@ -755,6 +774,13 @@ FE42SELECT.addEventListener("change", (event) => {
     } else {
         FE42val = FE42SELECT.value;
     }
+    const filteredHead20 = head20options.filter(opt => opt !== FE42temp);//could use factory function for html generation
+    FE20SELECT.innerHTML = filteredHead20.map(opt => 
+        `<option value="${opt}">${opt}</option>`
+    ).join('');
+    document.getElementById("FE20SELECT").dispatchEvent(new Event('change'));
+    head20options = filteredHead20;
+
     console.log("FE42val: ", FE42val);
     FE42coster();
 })
@@ -765,6 +791,12 @@ FE20SELECT.addEventListener("change", (event) => {
     } else {
         FE20val = FE20SELECT.value;
     }
+    //const filteredHead42 = head42options.filter(opt => opt !== FE20temp);
+    //FE42SELECT.innerHTML = filteredHead42.map(opt => 
+    //    `<option value="${opt}">${opt}</option>`
+    //).join('');
+    //document.getElementById("FE42SELECT").dispatchEvent(new Event('change'));
+    //head42options = filteredHead42;
     console.log("FE20val: ", FE20val);
     FE20coster();
 })
@@ -802,12 +834,12 @@ var formattedTotalPriceVatValue = "";
 
 const TVcost = 12;
 const FE42cost = 20;
-const CILLcost = 10;
-const CILL70cost = 5;
-const CILL85cost = 5;
-const CILL135cost = 0;
+const CILLNonecost = -15;
+const CILL70cost = -10;
+const CILL85cost = -8;
+const CILL135cost = -5;
 const CILL150cost = 0;
-const CILL190cost = 5;
+const CILL190cost = 10;
 const FE20cost = 15;
 const plRALul = 120; //RAL uplift price
 const THlow20cost = 15;
@@ -823,8 +855,8 @@ const DHANDLEralul = 10;
 const HINGEcost = 0;
 const HINGEralul = 10;
 const GLASScostunglazed = -44;
-const GLASScostclear1p4 = 10;
-const GLASScostclear1p5 = 0;
+const GLASScostclear1p4 = 0;
+const GLASScostclear1p5 = -5;
 const GLASScosttriple = 55;
 const GLASScostobscure = 20;
 
@@ -916,9 +948,10 @@ function FE20coster() {
     getPricing();
 }
 function CILLcoster() {
+    console.log("cillcoster running & CILLval: ", CILLval);
     switch(CILLval) {
         case "None":
-            CILLprice = setwidth/1000 * (CILLcost * -1);
+            CILLprice = setwidth/1000 * CILLNonecost;
             break;
         case "70mm (Flush)":
             CILLprice = setwidth/1000 * CILL70cost;
@@ -960,16 +993,16 @@ function LEVERcoster() {
     console.log("LEVERcoster starting");
     LEVERcounter();
     console.log("levercount: ", levercount);
-    LEVERprice = levercount * (LEVERcost + (Leverval === "colmatch" ? LEVERralul : 0));
+    LEVERprice = levercount * (LEVERcost + (Leverval === "Colmatch" ? LEVERralul : 0));
     getPricing();
     console.log("LEVERprice: ", LEVERprice);
     levercount = 0;
 }
 function SBOLTcoster() {
     console.log("SBOLTcoster starting");
-    SBOLTcounter();
+    SBOLTcounter(); //validate here if sbolt already has a value...shouldnt really have to run counter again if config isn't changed
     console.log("sboltcount: ", sboltcount);
-    SBOLTprice = sboltcount * (SBOLTcost + (Sboltval === "colmatch" ? SBOLTralul : 0));
+    SBOLTprice = sboltcount * (SBOLTcost + (Sboltval === "Colmatch" ? SBOLTralul : 0));
     getPricing();
     console.log("SBOLTprice: ", SBOLTprice);
     sboltcount = 0;
@@ -978,22 +1011,23 @@ function DHANDLEcoster() {
     console.log("DHANDLEcoster starting");
     DHANDLEcounter();
     console.log("dhandlecount: ", dhandlecount);
-    DHANDLEprice = dhandlecount * (DHANDLEcost + (Dhandleval === "colmatch" ? DHANDLEralul : 0));
+    DHANDLEprice = dhandlecount * (DHANDLEcost + (Dhandleval === "Colmatch" ? DHANDLEralul : 0));
     getPricing();
     console.log("DHANDLEprice: ", DHANDLEprice);
     dhandlecount = 0;
 }
 function GLASScoster() {
     console.log("GLASScoster starting");
+    console.log("GLASSval: ", Glassval);
     GLASSsizer();
     switch(Glassval) {
-        case "Unglazed  ":
+        case "Unglazed":
             GLASSprice = glassarea * GLASScostunglazed;
             break;
-        case "Clear1.4":
+        case "Clear 1.4":
             GLASSprice = glassarea * GLASScostclear1p4;
             break;
-        case "Clear1.5":
+        case "Clear 1.5":
             GLASSprice = glassarea * GLASScostclear1p5;
             break;
         case "Triple":
@@ -1225,7 +1259,6 @@ leafbuttonsid.addEventListener("click", (event) => {
 });
 convertWidthToPixel(width);
 convertHeightToPixel(height);
-draw("canvas-outview"); //                
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   VARIABLE STORAGE AND ENCODE/DECODE
@@ -1290,9 +1323,9 @@ function quoteSummaryElements () {
       { attribute: "Glass Option", description: Glassval, price: formatGBP(GLASSprice) },
 
       { attribute: "Total Price", isSubheading: true },
-      { attribute: "", description: "Ex. VAT", price: formattedTotalPriceExVat, style: { textAlign: "right" } },
-      { attribute: "", description: "VAT Value", price: formattedTotalPriceVatValue, style: { textAlign: "right" } }, 
-      { attribute: "", description: "Inc. VAT", price: formattedTotalPriceIncVat, style: { textAlign: "right" } },
+      { attribute: "", description: "Ex. VAT", price: formattedTotalPriceExVat },
+      { attribute: "", description: "VAT Value", price: formattedTotalPriceVatValue },
+      { attribute: "", description: "Inc. VAT", price: formattedTotalPriceIncVat },
     ];
 
     // Create the header row
@@ -1399,3 +1432,16 @@ function runSample () {
     ;
 }
 
+//----------------INITIALISATION STATE
+//draw("canvas-outview");
+
+tabPanels[0].removeAttribute("hidden", true);
+function initialiseState () {
+    setwidth = 5000;
+    setheight = 2100;
+    bfconfig = 505;
+    bfstyle = 5;
+}
+//while(false) {
+//    initialiseState();
+//}
