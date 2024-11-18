@@ -8,6 +8,7 @@ var leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
 
 
 
+
 //|   |   |   |   |   |   |   |   |   |   |   |   TAB INDEX & SWITCHING
 
 tabButtons.forEach((button, index) => { // Use the index from the forEach loop
@@ -219,31 +220,17 @@ glazingcontinue.addEventListener("click", (e) => {
 
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
-var setwidth = 0;
-var setheight = 0;  
+var setwidth = 3000;
+var setheight = 2100;
 
-
-
-function setWidth(x) {
-    setwidth = x;
-    //returnedwidth.textContent = setwidth;
-};
-function setHeight(x) {
-    setheight = x;
-    //returnedheight.textContent = setheight;
-};
-var width = 5000;              
-var height = 2100;
 sizestyleinput.addEventListener("submit", (event) => {
     event.preventDefault();
-    width = widthinput.value;
-    height = heightinput.value;
-    setWidth(width);
-    setHeight(height);
+    setwidth = widthinput.value;
+    setheight = heightinput.value;
     availableLeavesCalc();
     showLeafButtons();
-    convertWidthToPixel(width);
-    convertHeightToPixel(height);
+    convertWidthToPixel(setwidth);
+    convertHeightToPixel(setheight);
     draw("canvas-outview");
     
 });
@@ -268,6 +255,7 @@ function availableLeavesCalc () {
             i++;
         };
     }
+    console.log("leavescalcrun: ", setwidth, astyles);
     //leafnotest.textContent = astyles;
 }
 availableLeavesCalc();
@@ -341,6 +329,7 @@ BF6.addEventListener("click", (event) => {
     logBfLeaves(bfstyle);
     BASEcoster();
 })
+const divElement = document.getElementById('available-style-buttons');
 function addStyleButtonsTwoLeaf () {
     const button1 = createStyleButton('220','style-220');
     const button2 = createStyleButton('211','style-211');
@@ -437,9 +426,104 @@ availableStyleButtons.addEventListener("click", (event) => {
         GLASScoster();
     }
 });
+const availableStyleConfigsViewer = document.getElementById("available-style-configs-selector");
+availableStyleConfigsViewer.addEventListener("click", (event) => {
+    console.log(event.target);
+    if (event.target.tagName !== 'BUTTON') return;
+    if (event.target.matches('button')) {
+        const viewer = document.getElementById("available-style-configs-viewer");
+        //viewer.classList.toggle("pane-viewer");
+        availableLeavesCalc();
+        console.log("tried run availableLeavesCalc");
+        console.log("astyles: ", astyles);
+        rowticker = 1;
+        clearArticles();
+        for (let i = 0; i < astyles.length; i++) {
+            buttonsticker = 0;
+            stylerowfiller(astyles[i]);
+            console.log("tried run stylerowfiller");
+        }
+        //stylerowfiller(astyles[1]);
+    }
+})
+const configs2 = ["220/202", "211"];
+const configs3 = ["303/330", "321/312"];
+const configs4 = ["404/440", "422", "431/413"];
+const configs5 = ["505/550", "541/514", "523/532"];
+const configs6 = ["606/660", "651/615", "642/624", "633"];
+const configsviewerinfo = [
+    {leaf: 2, img: ["images/bfi2_1.png", "images/bfi2_2.png"], name: ["220/202", "211"], buttons: ["220", "202", "211"]},
+    {leaf: 3, img: ["images/bfi3_1.png", "images/bfi3_2.png"], name: ["303/330", "321/312"], buttons: ["303", "330", "321", "312"]},
+    {leaf: 4, img: ["images/bfi4_1.png", "images/bfi4_2.png", "images/bfi4_3.png"], name: ["404/440", "431/413", "422"], buttons: ["404", "440", "431", "413", "422"]},
+    {leaf: 5, img: ["images/bfi5_1.png", "images/bfi5_2.png", "images/bfi5_3.png"], name: ["505/550", "541/514", "532/523"], buttons: ["505", "550", "541", "514", "532", "523"]},
+    {leaf: 6, img: ["images/bfi6_1.png", "images/bfi6_2.png", "images/bfi6_3.png", "images/bfi6_4.png"], name: ["606/660", "651/615", "642/624", "633"], buttons: ["606", "660", "651", "615", "642", "624", "633"]}
+];
 
+var stylerowticker = 0;
+var rowticker = 1;
+function clearArticles() {
+    styleViewerArticles.forEach(article => {
+        while (article.firstChild) {
+            article.removeChild(article.firstChild);
+        }
+    });
+}
 
+var buttonsticker = 0;
+const styleViewerArticles = document.querySelectorAll('.styleviewerarticles');
+function stylerowfiller (leavesno) {
+    function styleimagefiller(offset) {
+        configsviewerinfo[leavesno-2].img.forEach((img, index) => {
+            console.log("offset: ", offset);
+            const article = styleViewerArticles[offset + index];
+            
+            const newbtn1 = document.createElement('button');
+            newbtn1.textContent = configsviewerinfo[leavesno-2].buttons[index+buttonsticker];
+            newbtn1.id = "style-" + configsviewerinfo[leavesno-2].buttons[index+buttonsticker] + "-asv";
+            newbtn1.type = "button";
+            article.appendChild(newbtn1);
+            const newbtn2 = document.createElement('button');
+            newbtn2.textContent = configsviewerinfo[leavesno-2].buttons[index+1+buttonsticker];
+            newbtn2.id = "style-" + configsviewerinfo[leavesno-2].buttons[index+1+buttonsticker] + "-asv";
+            newbtn2.type = "button";
+            if(newbtn1.textContent.charAt(1) === newbtn1.textContent.charAt(2)) {
+                
+            } else {
+                article.appendChild(newbtn2);
+            }            
+            buttonsticker += 1;
+            
+            const newimg = document.createElement('img');
+            newimg.src = img;
+            article.appendChild(newimg);
 
+            const newtext = document.createElement('p');
+            newtext.textContent = formatGBP(getPricing.formattedTotalPriceExVat);
+            article.appendChild(newtext);
+
+            console.log("articlenum", article);
+        });
+    }
+    const rownums = (astyles.length);
+    if (rowticker > rownums) {
+        return;
+    }
+    switch (rowticker) { 
+        case 1:
+            const rowox1 = 0;
+            styleimagefiller(rowox1);
+            break;
+        case 2:
+            const rowox2 = 4;
+            styleimagefiller(rowox2);
+            break;
+        case 3:
+            const rowox3 = 8;
+            styleimagefiller(rowox3);
+            break;
+    };
+    rowticker += 1;
+}
 
 
 
@@ -818,7 +902,6 @@ FE20SELECT.addEventListener("change", (event) => {
 //})
 //                                                                                     page is initialised here
 
-const divElement = document.getElementById('available-style-buttons');
 
 
 
@@ -1076,6 +1159,9 @@ function getPricing() { //adds all prices together and formats that price
         style: 'currency',
         currency: 'GBP'
     }).format(totalpriceexvat * 0.2);
+    getPricing.formattedTotalPriceExVat = formattedTotalPriceExVat;
+    getPricing.formattedTotalPriceIncVat = formattedTotalPriceIncVat;
+    getPricing.formattedTotalPriceVatValue = formattedTotalPriceVatValue;
 
 /////why is this having ot be get element?...LOL AI said cos using hyphens
     document.getElementById("price-panel-exvat").textContent = formattedTotalPriceExVat;
@@ -1166,8 +1252,8 @@ function draw(theview) {
         canvas.height = panelpiccanvasheight;
         cw = panelpiccanvaswidth;;
         ch = panelpiccanvasheight;
-        w = Math.round(width*conv);
-        h = Math.round(height*conv);
+        w = Math.round(setwidth*conv);
+        h = Math.round(setheight*conv);
         r = Math.round(2100*conv);
         outview.lineWidth = 0;
         //Black Borders below??
@@ -1253,12 +1339,12 @@ leafbuttonsid.addEventListener("click", (event) => {
         snode.removeChild(snode.lastChild);
     }
     addStyleButtons();
-    convertWidthToPixel(width);
-    convertHeightToPixel(height);
+    convertWidthToPixel(setwidth);
+    convertHeightToPixel(setheight);
     draw("canvas-outview");
 });
-convertWidthToPixel(width);
-convertHeightToPixel(height);
+convertWidthToPixel(setwidth);
+convertHeightToPixel(setheight);
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   VARIABLE STORAGE AND ENCODE/DECODE
@@ -1436,12 +1522,3 @@ function runSample () {
 //draw("canvas-outview");
 
 tabPanels[0].removeAttribute("hidden", true);
-function initialiseState () {
-    setwidth = 5000;
-    setheight = 2100;
-    bfconfig = 505;
-    bfstyle = 5;
-}
-//while(false) {
-//    initialiseState();
-//}

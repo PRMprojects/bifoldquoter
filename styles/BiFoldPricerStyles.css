@@ -308,4 +308,32 @@ div.image-outview p {
     margin-top: 10px;
     text-align: center;
 }
-
+#available-style-configs-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fill, 1fr);
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    overflow: hidden;
+}
+.styleviewerrows {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.styleviewerarticles {
+    width: 100%;
+    height: auto;
+    max-width: 100px;
+    max-height: auto;
+}
+.img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
