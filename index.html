@@ -14,13 +14,13 @@
         <div class="tab-pane" id="main-tab-pane">            
             <ul aria-labelledby="tabs-title" class="tab-list">
                 <!--<li><a id="tab-1" href="#service"> Service </a></li>-->
-                <li><a id="tab-1" href="#size-style"> Size & Style </a></li>
-                <li><a id="tab-2" href="#colour"> Colour </a></li>
-                <li><a id="tab-3" href="#hardware-options"> Hardware </a></li>
-                <li><a id="tab-4" href="#threshold"> Threshold </a></li>
-                <li><a id="tab-5" href="#glazing"> Glazing </a></li>
-                <li><a id="tab-6" href="#frame-options"> Frame Options </a></li>
-                <li><a id="tab-7" href="#summary"> Summary </a></li>
+                <li><a id="tab-1" href="#size-style" > Size & Style </a></li>
+                <li><a id="tab-2" href="#colour" class="tab-viewer"> Colour </a></li>
+                <li><a id="tab-3" href="#hardware-options" class="tab-viewer"> Hardware </a></li>
+                <li><a id="tab-4" href="#threshold" class="tab-viewer"> Threshold </a></li>
+                <li><a id="tab-5" href="#glazing" class="tab-viewer"> Glazing </a></li>
+                <li><a id="tab-6" href="#frame-options" class="tab-viewer"> Frame Options </a></li>
+                <li><a id="tab-7" href="#summary" class="tab-viewer"> Summary </a></li>
             </ul>
         
             <div class="main-pane" id="main-view-pane">
@@ -144,7 +144,7 @@
                                 Colour Matched
                             </label><br>
                         </div>
-                        <br><br>
+                        <br>
                         <label>Shootbolt Handles</label><br>
                         <div class="sbolt-buttons" id="sbolt-options">
                             <input type="radio" id="sb-Black" name="sbolt" value="black">
@@ -156,7 +156,7 @@
                             <input type="radio" id="sb-Colmatch" name="sbolt" value="colmatch">
                             <label for="sb-Colmatch">Matching</label>
                             
-                            <img id="sbImg" src="" width="100px" height="100px" alt="D-Handle">
+                            <img id="sbImg" src="" alt="D-Handle">
                         </div>
                         <br><br>
                         <label>D-Handles</label>
@@ -273,7 +273,7 @@
                     
                 </div>       
             </div>
-            <div class="kpane-viewer" id="available-style-configs-viewer">
+            <div class="pane-viewer" id="available-style-configs-viewer">
                 <h1>Available Styles</h1>
                 <div id="available-style-configs-table">
                     <div class="styleviewerrows"id="style-configs-viewer-row1">

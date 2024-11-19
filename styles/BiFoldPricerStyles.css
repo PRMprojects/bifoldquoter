@@ -133,6 +133,11 @@ a, a:link, a:visited, a:focus, a:hover, a:active {
     text-decoration: underline;
     cursor: pointer;
 }
+a:is(:link, :visited, :focus, :hover, :active).tabtogo {
+    color:rgb(214, 214, 250);
+    text-decoration: underline;
+    cursor: pointer;
+}
 .fadedButton {
     background-color: #f00808;
 }
@@ -195,8 +200,8 @@ a, a:link, a:visited, a:focus, a:hover, a:active {
 
 .sbolt-buttons {
     display: grid;
-    grid-template-columns: 22px 30% 70%;
-    grid-template-rows: repeat(4, 30px);
+    grid-template-columns: 22px 30% 50%;
+    grid-template-rows: repeat(4, 35px);
     gap: 4px;
     position: relative;
     width: 100%;
@@ -217,9 +222,13 @@ a, a:link, a:visited, a:focus, a:hover, a:active {
 .sbolt-buttons img {
     grid-column-start: 3;
     grid-row-start: 1;
-    width: 100%;
-    height: auto;
     object-fit: contain;
+    display: block;
+    width: 100%;
+    overflow-clip-margin: 0px;
+    overflow: auto;
+    
+
 }
 
 
@@ -241,6 +250,9 @@ div.image-outview p {
 
 
 .pane-viewer {
+    display: none;
+}
+.tab-viewer {
     display: none;
 }
 .pane-viewer-text {
@@ -334,6 +346,5 @@ div.image-outview p {
 }
 .img {
     display: block;
-    width: 100%;
-    height: auto;
+    
 }

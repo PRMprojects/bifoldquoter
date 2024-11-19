@@ -10,16 +10,27 @@ var leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
 
 
 //|   |   |   |   |   |   |   |   |   |   |   |   TAB INDEX & SWITCHING
+function tabInit() {
+    tabViewerShow("tab-1");
+    tabViewerShow("tab-2");
+    tabViewerShow("tab-3");
+    tabViewerShow("tab-4");
+    tabViewerShow("tab-5");
+    tabViewerShow("tab-6");
+    tabViewerShow("tab-7");
+}
+tabInit();
+
+
+
 
 tabButtons.forEach((button, index) => { // Use the index from the forEach loop
-    if (index === 0) {
-        // something goes here
-    } else {
-        if (tabPanels[index]) { // Check if the element exists before accessing it
-            tabPanels[index].setAttribute("hidden", "");
-        }
+    if (tabPanels[index]) { // Check if the element exists before accessing it
+        tabPanels[index].setAttribute("hidden", "");
     }
 });
+tabPanels[2].removeAttribute("hidden", true);
+
 function paneViewerClear (pane) {
     var paneViewer = document.getElementById(pane);
     paneViewer.classList.add("pane-viewer");
@@ -28,6 +39,15 @@ function paneViewerShow (pane) {
     var paneViewer = document.getElementById(pane);
     paneViewer.classList.remove("pane-viewer");
 }
+function tabViewerClear (tab) {
+    var tabViewer = document.getElementById(tab);
+    tabViewer.classList.add("tab-viewer");
+}
+function tabViewerShow (tab) {
+    var tabViewer = document.getElementById(tab);
+    tabViewer.classList.remove("tab-viewer");
+}
+
 tabsContainer.addEventListener("click", (e) => {
     console.log(e.target);
     const clickedTab = e.target.closest("a"); //weird bit of data validation?
@@ -71,6 +91,8 @@ var previousTab = "";
 function switchTab(tabX) {
     const activePanelId = tabX.getAttribute('href');
     const activePanel = tabsContainer.querySelector(activePanelId);
+    const matrixclass = document.getElementById("available-style-configs-viewer");
+    const matrixinout = matrixclass.classList;
 
     function tabSwitcher() {
         tabPanels.forEach((panel) => {
@@ -82,6 +104,7 @@ function switchTab(tabX) {
     if (activePanelId === "#summary") {
         console.log("summary found");
         paneViewerClear("main-view-pane");
+        paneViewerClear("available-style-configs-viewer");
         openSummary();
         previousTab = activePanelId;
     } else {
@@ -91,6 +114,10 @@ function switchTab(tabX) {
             previousTab = activePanelId;
             
         }
+    if (matrixinout.contains("matrix-box")) {
+        paneViewerClear("available-style-configs-viewer");
+        paneViewerShow("main-view-pane");
+    }
 
     if (activePanel) {
         tabSwitcher();
@@ -175,6 +202,7 @@ sizestylecontinue.addEventListener("click", (e) => {
     })
     const nextPanel = tabsContainer.querySelector("#colour")
     nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-2");
 })
 colourcontinue.addEventListener("click", (e) => {
     console.log(e.target);
@@ -183,6 +211,7 @@ colourcontinue.addEventListener("click", (e) => {
     })
     const nextPanel = tabsContainer.querySelector("#hardware-options")
     nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-3");
 })
 hardwareoptionscontinue.addEventListener("click", (e) => {
     console.log(e.target);
@@ -191,6 +220,7 @@ hardwareoptionscontinue.addEventListener("click", (e) => {
     })
     const nextPanel = tabsContainer.querySelector("#threshold")
     nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-4");
 })
 thresholdcontinue.addEventListener("click", (e) => {
     console.log(e.target);
@@ -199,6 +229,7 @@ thresholdcontinue.addEventListener("click", (e) => {
     })
     const nextPanel = tabsContainer.querySelector("#glazing")
     nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-5");
 })
 glazingcontinue.addEventListener("click", (e) => {
     console.log(e.target);
@@ -207,6 +238,9 @@ glazingcontinue.addEventListener("click", (e) => {
     })
     const nextPanel = tabsContainer.querySelector("#frame-options")
     nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-6");
+    tabViewerShow("tab-7");
+    
 })
 
 
@@ -428,11 +462,14 @@ availableStyleButtons.addEventListener("click", (event) => {
 });
 const availableStyleConfigsViewer = document.getElementById("available-style-configs-selector");
 availableStyleConfigsViewer.addEventListener("click", (event) => {
+    paneViewerClear("main-view-pane");
+    const matrixclass = document.getElementById("available-style-configs-viewer");
+    matrixclass.classList.add("matrix-box");
     console.log(event.target);
     if (event.target.tagName !== 'BUTTON') return;
     if (event.target.matches('button')) {
         const viewer = document.getElementById("available-style-configs-viewer");
-        //viewer.classList.toggle("pane-viewer");
+        viewer.classList.toggle("pane-viewer");
         availableLeavesCalc();
         console.log("tried run availableLeavesCalc");
         console.log("astyles: ", astyles);
@@ -491,17 +528,22 @@ function stylerowfiller (leavesno) {
             } else {
                 article.appendChild(newbtn2);
             }            
-            buttonsticker += 1;
+            
             
             const newimg = document.createElement('img');
             newimg.src = img;
-            article.appendChild(newimg);
+            article.appendChild(newimg);      
+            
 
+            const xtest = configsviewerinfo[leavesno-2].buttons[index+buttonsticker];
+            const fdig = xtest.charAt(0);
+            const mplp = 590;
+            const mprice = mplp * fdig;
             const newtext = document.createElement('p');
-            newtext.textContent = formatGBP(getPricing.formattedTotalPriceExVat);
+            newtext.textContent = formatGBP(mprice);
             article.appendChild(newtext);
 
-            console.log("articlenum", article);
+            buttonsticker += 1;
         });
     }
     const rownums = (astyles.length);
@@ -523,6 +565,11 @@ function stylerowfiller (leavesno) {
             break;
     };
     rowticker += 1;
+}
+function matrixPricer() {
+    const xtest = configsviewerinfo[leavsno-2].buttons[index+buttonsticker];
+    const fdig = xtest.charAt(1);
+    console.log("fdig bruhhhhhhhhhhhh: ", fdig);
 }
 
 
@@ -959,6 +1006,9 @@ var DHANDLEprice = 0;
 var HINGEprice = 0;
 var GLASSprice = 0;
 BASEcoster();
+//function matrixPricer() {
+//    BASEcoster();
+//}
 function BASEcoster() {
     BASEprice = plp * bfstyle;
     getPricing();
@@ -1127,10 +1177,14 @@ function GLASScoster() {
 
 
 function getPricing() { //adds all prices together and formats that price
+    console.log("getPricing running");
     totalpriceexvat = 0;   
     totalpriceexvat += ( BASEprice + COLSprice + FE42price + FE20price + CILLprice + THprice + TVPrice
         + LEVERprice + SBOLTprice + DHANDLEprice + HINGEprice + GLASSprice
     );
+
+    console.log("totalpriceexvat: ", totalpriceexvat);
+
     console.log("___+___PRICES___+___")
     console.log("suck a bfconfig:", bfconfig);
     console.log("Base price: ", BASEprice);
@@ -1517,8 +1571,3 @@ function runConsoleLog () {
 function runSample () {
     ;
 }
-
-//----------------INITIALISATION STATE
-//draw("canvas-outview");
-
-tabPanels[0].removeAttribute("hidden", true);
