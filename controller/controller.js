@@ -3,6 +3,7 @@
 var tabsContainer = document.querySelector(".tab-pane");
 var tabsList = tabsContainer.querySelector("ul");
 var tabButtons = tabsList.querySelectorAll("a");
+var tabButtonIds = Array.from(tabButtons).map(button => button.id);
 var tabPanels = tabsContainer.querySelectorAll(".interaction-pane > div");
 var leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
 
@@ -11,15 +12,12 @@ var leafButtons = tabsContainer.querySelectorAll(".leaf-buttons > button");
 
 //|   |   |   |   |   |   |   |   |   |   |   |   TAB INDEX & SWITCHING
 function tabInit() {
-    tabViewerShow("tab-1");
-    tabViewerShow("tab-2");
-    tabViewerShow("tab-3");
-    tabViewerShow("tab-4");
-    tabViewerShow("tab-5");
-    tabViewerShow("tab-6");
-    tabViewerShow("tab-7");
+    tabButtonIds.forEach(tabId => {
+        tabViewerShow(tabId);
+    });
 }
 tabInit();
+tabViewerShow("tab-1");
 
 
 
@@ -29,7 +27,7 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
         tabPanels[index].setAttribute("hidden", "");
     }
 });
-tabPanels[2].removeAttribute("hidden", true);
+tabPanels[0].removeAttribute("hidden", true);
 
 function paneViewerClear (pane) {
     var paneViewer = document.getElementById(pane);
@@ -254,20 +252,52 @@ glazingcontinue.addEventListener("click", (e) => {
 
 //|   |   |   |   |   |   |   |   |   |   |   |   SIZE & STYLE FUNCTIONS
 let widthinput = document.getElementById("widthinput");
-var setwidth = 3000;
-var setheight = 2100;
+var setwidth;
+var setheight;
+var leafwidth;
+var runinitval = 0;
+//setwidth = 3000;
+//setheight = 2100;
+const minwidth = 1500;
+const minheight = 1050;
 
 sizestyleinput.addEventListener("submit", (event) => {
     event.preventDefault();
     setwidth = widthinput.value;
     setheight = heightinput.value;
-    availableLeavesCalc();
-    showLeafButtons();
+    runsizeinitzer();
+    findleafwidth();
+
+    if(runinitval === 1) {
+        availableLeavesCalc();
+        showLeafButtons();
+
+        bfdrawer();
+    }
+});
+
+function findleafwidth() {
+    leafwidth = setwidth / bfstyle;
+    leafwidthid.textContent = leafwidth;
+}
+function runsizeinitzer() {
+    if (setwidth < minwidth || setheight < minheight) {
+        alert("Please enter a width and height greater than 1500mm and 1050mm respectively");
+        runinitval = 0;
+        return;
+    } else {
+        runinitval = 1;
+    }
+}
+function runleafinitzer() {
+}
+
+function bfdrawer() {
     convertWidthToPixel(setwidth);
     convertHeightToPixel(setheight);
     draw("canvas-outview");
-    
-});
+}
+
 
 function createStyleButton (text, id) {
     const button = document.createElement('button');
