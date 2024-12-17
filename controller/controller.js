@@ -277,7 +277,11 @@ sizestyleinput.addEventListener("submit", (event) => {
 });
 
 function findleafwidth() {
+    if ( bfstyle === 0) {
+        return;
+    };
     leafwidth = setwidth / bfstyle;
+    leafwidth = Math.round(leafwidth * 100) / 100;
     leafwidthid.textContent = leafwidth;
 }
 function runsizeinitzer() {
@@ -352,6 +356,7 @@ BF2.addEventListener("click", (event) => {
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
     BASEcoster();
+    findleafwidth();
 })
 BF3.addEventListener("click", (event) => {
     bfstyle = 3;
@@ -362,6 +367,7 @@ BF3.addEventListener("click", (event) => {
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
     BASEcoster();
+    findleafwidth();
 })
 BF4.addEventListener("click", (event) => {
     bfstyle = 4;
@@ -372,6 +378,7 @@ BF4.addEventListener("click", (event) => {
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
     BASEcoster();
+    findleafwidth();
 })
 BF5.addEventListener("click", (event) => {
     bfstyle = 5;
@@ -382,6 +389,7 @@ BF5.addEventListener("click", (event) => {
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
     BASEcoster();
+    findleafwidth();
 })
 BF6.addEventListener("click", (event) => {
     bfstyle = 6;
@@ -392,6 +400,7 @@ BF6.addEventListener("click", (event) => {
     maxwidthguidemin.textContent = bfstyle * 750;
     logBfLeaves(bfstyle);
     BASEcoster();
+    findleafwidth();
 })
 const divElement = document.getElementById('available-style-buttons');
 function addStyleButtonsTwoLeaf () {
