@@ -27,7 +27,7 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
         tabPanels[index].setAttribute("hidden", "");
     }
 });
-tabPanels[0].removeAttribute("hidden", true);
+tabPanels[3].removeAttribute("hidden", true);
 
 function paneViewerClear (pane) {
     var paneViewer = document.getElementById(pane);
@@ -144,12 +144,20 @@ function restoreState() {
 saveState();
 
 //|   |   |   |   |   |   |   |   |   |   |   |   BACK & CONTINUE BUTTONS
+styleback.addEventListener("click", (e) => {
+    console.log(e.target);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    })
+    const prevPanel = tabsContainer.querySelector("#size")
+    prevPanel.removeAttribute("hidden");
+})
 colourback.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
     })
-    const prevPanel = tabsContainer.querySelector("#size-style")
+    const prevPanel = tabsContainer.querySelector("#style")
     prevPanel.removeAttribute("hidden");
 })
 hardwareoptionsback.addEventListener("click", (e) => {
@@ -160,14 +168,6 @@ hardwareoptionsback.addEventListener("click", (e) => {
     const prevPanel = tabsContainer.querySelector("#colour")
     prevPanel.removeAttribute("hidden");
 })
-thresholdback.addEventListener("click", (e) => {
-    console.log(e.target);
-    tabPanels.forEach((panel) => {
-        panel.setAttribute("hidden", true);
-    })
-    const prevPanel = tabsContainer.querySelector("#hardware-options")
-    prevPanel.removeAttribute("hidden");
-})
 glazingback.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
@@ -176,12 +176,20 @@ glazingback.addEventListener("click", (e) => {
     const prevPanel = tabsContainer.querySelector("#threshold")
     prevPanel.removeAttribute("hidden");
 })
-frameoptionsback.addEventListener("click", (e) => {
+trickleventsback.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
     })
     const prevPanel = tabsContainer.querySelector("#glazing")
+    prevPanel.removeAttribute("hidden");
+})
+frameoptionsback.addEventListener("click", (e) => {
+    console.log(e.target);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    })
+    const prevPanel = tabsContainer.querySelector("#trickle-vents")
     prevPanel.removeAttribute("hidden");
 })
 
@@ -193,7 +201,16 @@ frameoptionsback.addEventListener("click", (e) => {
 //    const nextPanel = tabsContainer.querySelector("#size-style")
 //    nextPanel.removeAttribute("hidden");
 //})
-sizestylecontinue.addEventListener("click", (e) => {
+sizecontinue.addEventListener("click", (e) => {
+    console.log(e.target);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    })
+    const nextPanel = tabsContainer.querySelector("#style")
+    nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-2");
+})
+stylecontinue.addEventListener("click", (e) => {
     console.log(e.target);
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
@@ -234,11 +251,19 @@ glazingcontinue.addEventListener("click", (e) => {
     tabPanels.forEach((panel) => {
         panel.setAttribute("hidden", true);
     })
-    const nextPanel = tabsContainer.querySelector("#frame-options")
+    const nextPanel = tabsContainer.querySelector("#trickle-vents")
     nextPanel.removeAttribute("hidden");
     tabViewerShow("tab-6");
     tabViewerShow("tab-7");
-    
+})
+trickleventscontinue.addEventListener("click", (e) => {
+    console.log(e.target);
+    tabPanels.forEach((panel) => {
+        panel.setAttribute("hidden", true);
+    })
+    const nextPanel = tabsContainer.querySelector("#frame-options")
+    nextPanel.removeAttribute("hidden");
+    tabViewerShow("tab-7");
 })
 
 
@@ -666,54 +691,54 @@ var Sboltval = "Black";
 var Dhandleval = "Black";
 var Hingeval = "Black";
 const leverOptions = document.getElementById('lever-options');
-leverOptions.addEventListener("click", (event) => {
-    Leverval = event.target.id;
-    Leverval = Leverval.replace('lh-', '');
-    console.log("selectedLever: ", Leverval);
-    LEVERcoster();
-})
-const sboltOptions = document.getElementById('sbolt-options');
-sboltOptions.addEventListener("click", (event) => {
-    Sboltval = event.target.id;
-    Sboltval = Sboltval.replace('sb-', '');
-    console.log("selectedSbolt: ", Sboltval);
-    SBOLTcoster();
-})
-const dhandleOptions = document.getElementById('dhandle-options');
-dhandleOptions.addEventListener("click", (event) => {
-    Dhandleval = event.target.id;
-    Dhandleval = Dhandleval.replace('dh-', '');
-    console.log("selectedDhandle: ", Dhandleval);
-    DHANDLEcoster();
-})
-const hingeOptions = document.getElementById('hinge-options');
-hingeOptions.addEventListener("click", (event) => {
-    Hingeval = event.target.id;
-    Hingeval = Hingeval.replace('hinge-', '');
-    console.log("selectedHinge: ", Hingeval);
-    HINGEcoster();
-})
+//leverOptions.addEventListener("click", (event) => {
+//    Leverval = event.target.id;
+//    Leverval = Leverval.replace('lh-', '');
+//    console.log("selectedLever: ", Leverval);
+//    LEVERcoster();
+//})
+//const sboltOptions = document.getElementById('sbolt-options');
+//sboltOptions.addEventListener("click", (event) => {
+//    Sboltval = event.target.id;
+//    Sboltval = Sboltval.replace('sb-', '');
+//    console.log("selectedSbolt: ", Sboltval);
+//    SBOLTcoster();
+//})
+//const dhandleOptions = document.getElementById('dhandle-options');
+//dhandleOptions.addEventListener("click", (event) => {
+//    Dhandleval = event.target.id;
+//    Dhandleval = Dhandleval.replace('dh-', '');
+//    console.log("selectedDhandle: ", Dhandleval);
+//    DHANDLEcoster();
+//})
+//const hingeOptions = document.getElementById('hinge-options');
+//hingeOptions.addEventListener("click", (event) => {
+//    Hingeval = event.target.id;
+//    Hingeval = Hingeval.replace('hinge-', '');
+//    console.log("selectedHinge: ", Hingeval);
+//    HINGEcoster();
+//})
 
-sboltOptions.addEventListener("click", (event) => {
-    Sboltval = event.target.id;
-    console.log("Sboltval: ", Sboltval);
-    Sboltval = Sboltval.replace('sb-', '');
-    console.log("selectedSbolt: ", Sboltval);
-    switch (Sboltval) {
-        case "Black":
-            sbImg.src = "images/acdv225blacksbolthandle.jpg";
-            break;
-        case "White":
-            sbImg.src = "images/acdv225whitesbolthandle.jpg";
-            break;
-        case "Chrome":
-            sbImg.src = "images/acdv225chromesbolthandle.jpg";
-            break;
-        case "Colmatch":
-            sbImg.src = "images/chocbuttons.jpg";
-            break;
-    }
-})
+//sboltOptions.addEventListener("click", (event) => {
+//    Sboltval = event.target.id;
+//    console.log("Sboltval: ", Sboltval);
+//    Sboltval = Sboltval.replace('sb-', '');
+//    console.log("selectedSbolt: ", Sboltval);
+//    switch (Sboltval) {
+//        case "Black":
+//            sbImg.src = "images/acdv225blacksbolthandle.jpg";
+//            break;
+//        case "White":
+//            sbImg.src = "images/acdv225whitesbolthandle.jpg";
+//            break;
+//        case "Chrome":
+//            sbImg.src = "images/acdv225chromesbolthandle.jpg";
+//            break;
+//        case "Colmatch":
+//            sbImg.src = "images/chocbuttons.jpg";
+//            break;
+//    }
+//})
 var levercount = 0;
 function LEVERcounter() {
     if (bfconfig) {
@@ -1188,6 +1213,9 @@ function DHANDLEcoster() {
     console.log("DHANDLEprice: ", DHANDLEprice);
     dhandlecount = 0;
 }
+function HINGEcoster() {
+}
+    // hinge counter too intricate for now and not
 function GLASScoster() {
     console.log("GLASScoster starting");
     console.log("GLASSval: ", Glassval);
@@ -1225,7 +1253,7 @@ function getPricing() { //adds all prices together and formats that price
     console.log("totalpriceexvat: ", totalpriceexvat);
 
     console.log("___+___PRICES___+___")
-    console.log("suck a bfconfig:", bfconfig);
+    console.log("bfconfig:", bfconfig);
     console.log("Base price: ", BASEprice);
     console.log("COLSprice: ", COLSprice);
     console.log("FE42price: ", FE42price);
