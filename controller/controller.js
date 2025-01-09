@@ -27,7 +27,7 @@ tabButtons.forEach((button, index) => { // Use the index from the forEach loop
         tabPanels[index].setAttribute("hidden", "");
     }
 });
-tabPanels[3].removeAttribute("hidden", true);
+tabPanels[0].removeAttribute("hidden", true);
 
 function paneViewerClear (pane) {
     var paneViewer = document.getElementById(pane);
